@@ -1,0 +1,258 @@
+.site-header {
+	border-bottom: 1px solid var(--border);
+	padding: 48px 24px 40px;
+	text-align: center;
+}
+
+.site-header__subtitle {
+	color: var(--text);
+	font-size: 15px;
+	margin-top: 8px;
+}
+
+.site-header__summary {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	justify-content: center;
+	margin-top: 24px;
+}
+
+.summary-chip {
+	align-items: center;
+	border: 1px solid;
+	border-radius: 20px;
+	display: inline-flex;
+	font-size: 14px;
+	font-weight: 600;
+	gap: 6px;
+	padding: 5px 14px;
+
+	&::before {
+		border-radius: 50%;
+		content: '';
+		flex-shrink: 0;
+		height: 8px;
+		width: 8px;
+	}
+}
+
+.summary-chip--open {
+	background: var(--status-open-bg);
+	border-color: var(--status-open-border);
+	color: var(--status-open);
+
+	&::before {
+		background: var(--status-open);
+	}
+}
+
+.summary-chip--caution {
+	background: var(--status-caution-bg);
+	border-color: var(--status-caution-border);
+	color: var(--status-caution);
+
+	&::before {
+		background: var(--status-caution);
+	}
+}
+
+.summary-chip--closed {
+	background: var(--status-closed-bg);
+	border-color: var(--status-closed-border);
+	color: var(--status-closed);
+
+	&::before {
+		background: var(--status-closed);
+	}
+}
+
+.trail-grid {
+	display: grid;
+	flex: 1;
+	gap: 20px;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	padding: 32px 24px;
+}
+
+.trail-card {
+	background: var(--card-bg);
+	border: 1px solid var(--border);
+	border-left-width: 4px;
+	border-radius: 8px;
+	box-shadow: var(--shadow);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 20px;
+	transition: box-shadow 0.2s;
+
+	&:hover {
+		box-shadow: var(--shadow-hover);
+	}
+}
+
+.trail-card--open {
+	border-left-color: var(--status-open);
+}
+
+.trail-card--caution {
+	border-left-color: var(--status-caution);
+}
+
+.trail-card--closed {
+	border-left-color: var(--status-closed);
+}
+
+.trail-card--unknown {
+	border-left-color: var(--status-unknown);
+}
+
+.trail-card__header {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 4px;
+}
+
+.trail-card__badge {
+	border: 1px solid;
+	border-radius: 12px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.6px;
+	padding: 3px 10px;
+	text-transform: uppercase;
+}
+
+.trail-card__badge--open {
+	background: var(--status-open-bg);
+	border-color: var(--status-open-border);
+	color: var(--status-open);
+}
+
+.trail-card__badge--caution {
+	background: var(--status-caution-bg);
+	border-color: var(--status-caution-border);
+	color: var(--status-caution);
+}
+
+.trail-card__badge--closed {
+	background: var(--status-closed-bg);
+	border-color: var(--status-closed-border);
+	color: var(--status-closed);
+}
+
+.trail-card__badge--unknown {
+	background: var(--status-unknown-bg);
+	border-color: var(--status-unknown-border);
+	color: var(--status-unknown);
+}
+
+.trail-card__updated {
+	color: var(--text);
+	font-size: 12px;
+	opacity: 0.6;
+}
+
+.trail-card__name {
+	font-size: 20px;
+	line-height: 1.2;
+}
+
+.trail-card__location {
+	color: var(--text);
+	font-size: 13px;
+}
+
+.trail-card__condition {
+	border-top: 1px solid var(--border);
+	color: var(--text);
+	font-size: 14px;
+	line-height: 1.45;
+	margin-top: 6px;
+	padding-top: 12px;
+}
+
+.trail-card__meta {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 6px;
+}
+
+.trail-card__diff {
+	align-items: center;
+	display: inline-flex;
+	font-size: 13px;
+	font-weight: 500;
+	gap: 6px;
+
+	&::before {
+		border-radius: 50%;
+		content: '';
+		flex-shrink: 0;
+		height: 10px;
+		width: 10px;
+	}
+}
+
+.trail-card__diff--green::before {
+	background: var(--diff-green);
+}
+
+.trail-card__diff--blue::before {
+	background: var(--diff-blue);
+}
+
+.trail-card__diff--black::before {
+	background: var(--diff-black);
+}
+
+.trail-card__miles {
+	color: var(--text);
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.trail-card__links {
+	border-top: 1px solid var(--border);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+
+.trail-card__source {
+	color: var(--text-h);
+	font-size: 12px;
+	opacity: 0.55;
+	text-decoration: none;
+	transition: opacity 0.15s;
+
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.status-msg {
+	color: var(--text);
+	font-size: 15px;
+	grid-column: 1 / -1;
+	padding: 40px 0;
+	text-align: center;
+}
+
+.status-msg--error {
+	color: var(--status-closed);
+}
+
+.site-footer {
+	border-top: 1px solid var(--border);
+	color: var(--text);
+	font-size: 13px;
+	opacity: 0.7;
+	padding: 20px 24px;
+	text-align: center;
+}

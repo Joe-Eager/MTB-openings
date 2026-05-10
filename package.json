@@ -1,0 +1,44 @@
+{
+	"dependencies": {
+		"cheerio": "^1.2.0",
+		"express": "^5.2.1",
+		"react": "^19.2.5",
+		"react-dom": "^19.2.5"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@types/express": "^5",
+		"@types/node": "^24.12.2",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.1",
+		"concurrently": "^9.2.1",
+		"eslint": "^10.2.1",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-check-file": "^3.3.1",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^7.0.1",
+		"eslint-plugin-react-refresh": "^0.5.2",
+		"eslint-plugin-simple-import-sort": "^13.0.0",
+		"eslint-plugin-sort-keys-custom-order": "^3.0.1",
+		"globals": "^17.5.0",
+		"jiti": "^2.6.1",
+		"prettier": "3.8.1",
+		"typescript": "~6.0.2",
+		"typescript-eslint": "^8.58.2",
+		"vite": "^8.0.10"
+	},
+	"name": "my-react-app",
+	"packageManager": "yarn@4.10.3",
+	"private": true,
+	"scripts": {
+		"build": "tsc -b && vite build",
+		"deploy": "yarn build && rsync -av --exclude=node_modules --exclude=src --exclude=.git --exclude=.yarn . jelly@192.168.50.74:~/mtb-trails/ && ssh jelly@192.168.50.74 'cd ~/mtb-trails && yarn install && sudo systemctl restart mtb-trails'",
+		"dev": "concurrently \"node server.mjs\" \"vite\"",
+		"lint": "eslint .",
+		"preview": "vite preview",
+		"start": "node server.mjs"
+	},
+	"type": "module",
+	"version": "0.0.0"
+}

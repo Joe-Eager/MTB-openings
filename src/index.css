@@ -1,0 +1,112 @@
+:root {
+	--text: #6b7280;
+	--text-h: #111827;
+	--bg: #f9fafb;
+	--card-bg: #ffffff;
+	--border: #e5e7eb;
+	--shadow: rgba(0, 0, 0, 0.06) 0 2px 8px, rgba(0, 0, 0, 0.04) 0 1px 3px;
+	--shadow-hover: rgba(0, 0, 0, 0.12) 0 8px 24px, rgba(0, 0, 0, 0.06) 0 2px 8px;
+
+	--status-open: #16a34a;
+	--status-open-bg: #dcfce7;
+	--status-open-border: #86efac;
+	--status-caution: #d97706;
+	--status-caution-bg: #fef3c7;
+	--status-caution-border: #fcd34d;
+	--status-closed: #dc2626;
+	--status-closed-bg: #fee2e2;
+	--status-closed-border: #fca5a5;
+
+	--status-unknown: #6b7280;
+	--status-unknown-bg: #f3f4f6;
+	--status-unknown-border: #d1d5db;
+
+	--diff-black: #1f2937;
+	--diff-blue: #2563eb;
+	--diff-green: #16a34a;
+
+	--sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+
+	font: 16px/150% var(--sans);
+	color: var(--text);
+	background: var(--bg);
+	color-scheme: light dark;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--text: #9ca3af;
+		--text-h: #f3f4f6;
+		--bg: #111827;
+		--card-bg: #1f2937;
+		--border: #374151;
+		--shadow: rgba(0, 0, 0, 0.3) 0 2px 8px, rgba(0, 0, 0, 0.2) 0 1px 3px;
+		--shadow-hover: rgba(0, 0, 0, 0.5) 0 8px 24px, rgba(0, 0, 0, 0.3) 0 2px 8px;
+
+		--status-open: #4ade80;
+		--status-open-bg: rgba(74, 222, 128, 0.1);
+		--status-open-border: rgba(74, 222, 128, 0.3);
+		--status-caution: #fbbf24;
+		--status-caution-bg: rgba(251, 191, 36, 0.1);
+		--status-caution-border: rgba(251, 191, 36, 0.3);
+		--status-closed: #f87171;
+		--status-closed-bg: rgba(248, 113, 113, 0.1);
+		--status-closed-border: rgba(248, 113, 113, 0.3);
+
+		--status-unknown: #9ca3af;
+		--status-unknown-bg: rgba(156, 163, 175, 0.1);
+		--status-unknown-border: rgba(156, 163, 175, 0.3);
+
+		--diff-black: #d1d5db;
+		--diff-blue: #60a5fa;
+		--diff-green: #4ade80;
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	max-width: 1200px;
+	min-height: 100svh;
+	width: 100%;
+}
+
+h1,
+h2 {
+	color: var(--text-h);
+	font-family: var(--sans);
+	font-weight: 600;
+	margin: 0;
+}
+
+h1 {
+	font-size: 48px;
+	letter-spacing: -1px;
+
+	@media (max-width: 768px) {
+		font-size: 32px;
+	}
+}
+
+h2 {
+	font-size: 20px;
+}
+
+p {
+	margin: 0;
+}
