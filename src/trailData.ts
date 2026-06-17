@@ -15,5 +15,6 @@ export interface Trail {
 	miles: number;
 	name: string;
 	status: TrailStatus;
+	timestamp: number | null;
 	updatedAt: string;
 }

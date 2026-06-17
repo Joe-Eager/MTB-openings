@@ -9,12 +9,8 @@
 	align-items: center;
 	background: none;
 	border: 0;
-	color: var(--text);
 	cursor: pointer;
 	display: inline-flex;
-	font: inherit;
-	font-size: 13px;
-	gap: 8px;
 	padding: 6px;
 	position: absolute;
 	right: 16px;
@@ -32,38 +28,30 @@
 }
 
 .theme-toggle__knob {
-	background: var(--accent);
-	border-radius: 50%;
-	height: 16px;
-	left: 4px;
+	align-items: center;
+	color: var(--accent);
+	display: flex;
+	height: 28px;
+	justify-content: center;
+	left: 0;
 	position: absolute;
-	top: 3px;
+	top: -3px;
 	transition: transform 0.2s ease;
-	width: 16px;
+	width: 28px;
 }
 
 .theme-toggle[aria-checked='true'] .theme-toggle__knob {
-	transform: translateX(20px);
+	transform: translateX(14px);
 }
 
-.theme-toggle__label {
-	opacity: 0.45;
-	transition: color 0.15s ease, opacity 0.15s ease;
-}
-
-.theme-toggle[aria-checked='false'] .theme-toggle__label--alucard,
-.theme-toggle[aria-checked='true'] .theme-toggle__label--dracula {
-	color: var(--text-h);
-	opacity: 1;
+.theme-toggle__icon {
+	height: 28px;
+	width: 28px;
 }
 
 @media (max-width: 768px) {
 	.site-header {
 		padding: 16px 16px 20px;
-	}
-
-	.theme-toggle__label {
-		display: none;
 	}
 
 	.site-header__summary {
@@ -150,8 +138,8 @@
 	box-shadow: var(--shadow);
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	padding: 20px;
+	gap: 5px;
+	padding: 10px 20px 5px;
 	transition: box-shadow 0.2s;
 
 	&:hover {
@@ -215,8 +203,9 @@
 
 .trail-card__details {
 	display: flex;
+	flex: 1;
 	flex-direction: column;
-	gap: 6px;
+	gap: 5px;
 }
 
 .trail-card__badge {
@@ -254,19 +243,30 @@
 	color: var(--status-stale);
 }
 
+.trail-card__foot {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	margin-top: auto;
+}
+
 .trail-card__updated {
-	color: var(--text);
-	flex-shrink: 0;
+	align-self: flex-end;
+	color: var(--text-h);
 	font-size: 12px;
-	opacity: 0.6;
-	white-space: nowrap;
+	opacity: 0.55;
 }
 
 .trail-card__location {
-	align-self: flex-start;
-	color: var(--text);
+	color: var(--text-h);
+	display: block;
 	font-size: 13px;
+	max-width: 100%;
+	opacity: 0.55;
+	overflow: hidden;
 	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .trail-card__location:hover {
@@ -278,58 +278,16 @@
 	color: var(--text);
 	font-size: 14px;
 	line-height: 1.45;
-	margin-top: 6px;
-	padding-top: 12px;
-}
-
-.trail-card__meta {
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-	margin-top: 6px;
-}
-
-.trail-card__diff {
-	align-items: center;
-	display: inline-flex;
-	font-size: 13px;
-	font-weight: 500;
-	gap: 6px;
-
-	&::before {
-		border-radius: 50%;
-		content: '';
-		flex-shrink: 0;
-		height: 10px;
-		width: 10px;
-	}
-}
-
-.trail-card__diff--green::before {
-	background: var(--diff-green);
-}
-
-.trail-card__diff--blue::before {
-	background: var(--diff-blue);
-}
-
-.trail-card__diff--black::before {
-	background: var(--diff-black);
-}
-
-.trail-card__miles {
-	color: var(--text);
-	font-size: 13px;
-	font-weight: 500;
+	padding-top: 5px;
 }
 
 .trail-card__links {
+	align-items: center;
 	border-top: 1px solid var(--border);
 	display: flex;
 	flex-wrap: wrap;
-	gap: 10px;
-	margin-top: 10px;
-	padding-top: 10px;
+	gap: 2.5px 10px;
+	padding-top: 5px;
 }
 
 .trail-card__source {
@@ -379,10 +337,6 @@
 
 	.trail-card__title {
 		font-size: 16px;
-	}
-
-	.trail-card__updated {
-		display: none;
 	}
 
 	.trail-card__chevron {

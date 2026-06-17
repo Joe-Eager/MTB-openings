@@ -479,9 +479,10 @@ async function getAllTrails() {
 
 	const now = Date.now();
 	const trails = [...metroparks, ...bsky, cvnp, ...trailforks, ...STATIC_TRAILS]
-		.map(({ timestamp, ...trail }) => {
+		.map((trail) => {
+			const timestamp = trail.timestamp ?? null;
 			const stale = trail.status === 'stale' || (timestamp != null && now - timestamp > STALE_AFTER);
-			return stale ? { ...trail, status: 'stale' } : trail;
+			return { ...trail, status: stale ? 'stale' : trail.status, timestamp };
 		})
 		.sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]);
 
