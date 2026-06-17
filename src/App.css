@@ -1,7 +1,68 @@
 .site-header {
 	border-bottom: 1px solid var(--border);
 	padding: 48px 24px 40px;
+	position: relative;
 	text-align: center;
+}
+
+.theme-toggle {
+	align-items: center;
+	background: none;
+	border: 0;
+	color: var(--text);
+	cursor: pointer;
+	display: inline-flex;
+	font: inherit;
+	font-size: 13px;
+	gap: 8px;
+	padding: 6px;
+	position: absolute;
+	right: 16px;
+	top: 16px;
+}
+
+.theme-toggle__track {
+	background: var(--border);
+	border-radius: 999px;
+	flex-shrink: 0;
+	height: 22px;
+	position: relative;
+	transition: background-color 0.2s ease;
+	width: 42px;
+}
+
+.theme-toggle__knob {
+	background: var(--accent);
+	border-radius: 50%;
+	height: 16px;
+	left: 4px;
+	position: absolute;
+	top: 3px;
+	transition: transform 0.2s ease;
+	width: 16px;
+}
+
+.theme-toggle[aria-checked='true'] .theme-toggle__knob {
+	transform: translateX(20px);
+}
+
+.theme-toggle__label {
+	opacity: 0.45;
+	transition: color 0.15s ease, opacity 0.15s ease;
+}
+
+.theme-toggle[aria-checked='false'] .theme-toggle__label--alucard,
+.theme-toggle[aria-checked='true'] .theme-toggle__label--dracula {
+	color: var(--text-h);
+	opacity: 1;
+}
+
+@media (max-width: 768px) {
+	.theme-toggle {
+		position: static;
+		justify-content: center;
+		margin: 0 auto 16px;
+	}
 }
 
 .site-header__subtitle {
@@ -161,8 +222,14 @@
 }
 
 .trail-card__location {
+	align-self: flex-start;
 	color: var(--text);
 	font-size: 13px;
+	text-decoration: none;
+}
+
+.trail-card__location:hover {
+	text-decoration: underline;
 }
 
 .trail-card__condition {

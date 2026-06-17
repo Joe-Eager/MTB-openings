@@ -17,8 +17,12 @@ interface Props {
 	trail: Trail;
 }
 
+function mapsUrl(trail: Trail): string {
+	const query = `${trail.name}, ${trail.location.replace(/·/g, ',')}`;
+	return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
 function TrailCard({ trail }: Props) {
-	console.log('👌 ~ TrailCard ~ trail:', trail);
 	return (
 		<article className={`trail-card trail-card--${trail.status}`}>
 			<div className='trail-card__header'>
@@ -28,7 +32,14 @@ function TrailCard({ trail }: Props) {
 				<span className='trail-card__updated'>{trail.updatedAt}</span>
 			</div>
 			<h2 className='trail-card__name'>{trail.name}</h2>
-			<p className='trail-card__location'>{trail.location}</p>
+			<a
+				className='trail-card__location'
+				href={mapsUrl(trail)}
+				rel='noopener noreferrer'
+				target='_blank'
+			>
+				{trail.location}
+			</a>
 			<p className='trail-card__condition'>{trail.condition}</p>
 			<div className='trail-card__meta'>
 				<span className={`trail-card__diff trail-card__diff--${trail.difficulty}`}>

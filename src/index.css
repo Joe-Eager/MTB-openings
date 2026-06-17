@@ -1,70 +1,76 @@
+/* Dracula palette — https://draculatheme.com/contribute */
 :root {
-	--text: #6b7280;
-	--text-h: #111827;
-	--bg: #f9fafb;
-	--card-bg: #ffffff;
-	--border: #e5e7eb;
-	--shadow: rgba(0, 0, 0, 0.06) 0 2px 8px, rgba(0, 0, 0, 0.04) 0 1px 3px;
-	--shadow-hover: rgba(0, 0, 0, 0.12) 0 8px 24px, rgba(0, 0, 0, 0.06) 0 2px 8px;
+	--text: #6272a4; /* comment — muted text */
+	--text-h: #f8f8f2; /* foreground — high-emphasis text */
+	--bg: #282a36; /* background */
+	--card-bg: #343746; /* elevated surface */
+	--border: #44475a; /* current line */
+	--shadow: rgba(0, 0, 0, 0.3) 0 2px 8px, rgba(0, 0, 0, 0.2) 0 1px 3px;
+	--shadow-hover: rgba(0, 0, 0, 0.5) 0 8px 24px, rgba(0, 0, 0, 0.3) 0 2px 8px;
 
-	--status-open: #16a34a;
-	--status-open-bg: #dcfce7;
-	--status-open-border: #86efac;
-	--status-caution: #d97706;
-	--status-caution-bg: #fef3c7;
-	--status-caution-border: #fcd34d;
-	--status-closed: #dc2626;
-	--status-closed-bg: #fee2e2;
-	--status-closed-border: #fca5a5;
+	--status-open: #50fa7b; /* green */
+	--status-open-bg: rgba(80, 250, 123, 0.12);
+	--status-open-border: rgba(80, 250, 123, 0.35);
+	--status-caution: #ffb86c; /* orange */
+	--status-caution-bg: rgba(255, 184, 108, 0.12);
+	--status-caution-border: rgba(255, 184, 108, 0.35);
+	--status-closed: #ff5555; /* red */
+	--status-closed-bg: rgba(255, 85, 85, 0.12);
+	--status-closed-border: rgba(255, 85, 85, 0.35);
 
-	--status-unknown: #6b7280;
-	--status-unknown-bg: #f3f4f6;
-	--status-unknown-border: #d1d5db;
+	--status-unknown: #6272a4; /* comment */
+	--status-unknown-bg: rgba(98, 114, 164, 0.12);
+	--status-unknown-border: rgba(98, 114, 164, 0.4);
 
-	--diff-black: #1f2937;
-	--diff-blue: #2563eb;
-	--diff-green: #16a34a;
+	--diff-black: #bd93f9; /* purple — advanced */
+	--diff-blue: #8be9fd; /* cyan — intermediate */
+	--diff-green: #50fa7b; /* green — easy */
+
+	--accent: #ff79c6; /* pink */
 
 	--sans: system-ui, 'Segoe UI', Roboto, sans-serif;
 
 	font: 16px/150% var(--sans);
 	color: var(--text);
 	background: var(--bg);
-	color-scheme: light dark;
+	color-scheme: dark;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--text: #9ca3af;
-		--text-h: #f3f4f6;
-		--bg: #111827;
-		--card-bg: #1f2937;
-		--border: #374151;
-		--shadow: rgba(0, 0, 0, 0.3) 0 2px 8px, rgba(0, 0, 0, 0.2) 0 1px 3px;
-		--shadow-hover: rgba(0, 0, 0, 0.5) 0 8px 24px, rgba(0, 0, 0, 0.3) 0 2px 8px;
+/* Alucard palette — Dracula's official light counterpart (https://draculatheme.com/spec) */
+:root[data-theme='alucard'] {
+	--text: #6c664b; /* comment — muted text */
+	--text-h: #1f1f1f; /* foreground — high-emphasis text */
+	--bg: #fffbeb; /* background */
+	--card-bg: #ffffff; /* elevated surface */
+	--border: #cfcfde; /* selection */
+	--shadow: rgba(0, 0, 0, 0.06) 0 2px 8px, rgba(0, 0, 0, 0.04) 0 1px 3px;
+	--shadow-hover: rgba(0, 0, 0, 0.12) 0 8px 24px, rgba(0, 0, 0, 0.06) 0 2px 8px;
 
-		--status-open: #4ade80;
-		--status-open-bg: rgba(74, 222, 128, 0.1);
-		--status-open-border: rgba(74, 222, 128, 0.3);
-		--status-caution: #fbbf24;
-		--status-caution-bg: rgba(251, 191, 36, 0.1);
-		--status-caution-border: rgba(251, 191, 36, 0.3);
-		--status-closed: #f87171;
-		--status-closed-bg: rgba(248, 113, 113, 0.1);
-		--status-closed-border: rgba(248, 113, 113, 0.3);
+	--status-open: #14710a; /* green */
+	--status-open-bg: rgba(20, 113, 10, 0.1);
+	--status-open-border: rgba(20, 113, 10, 0.3);
+	--status-caution: #a34d14; /* orange */
+	--status-caution-bg: rgba(163, 77, 20, 0.1);
+	--status-caution-border: rgba(163, 77, 20, 0.3);
+	--status-closed: #cb3a2a; /* red */
+	--status-closed-bg: rgba(203, 58, 42, 0.1);
+	--status-closed-border: rgba(203, 58, 42, 0.3);
 
-		--status-unknown: #9ca3af;
-		--status-unknown-bg: rgba(156, 163, 175, 0.1);
-		--status-unknown-border: rgba(156, 163, 175, 0.3);
+	--status-unknown: #6c664b; /* comment */
+	--status-unknown-bg: rgba(108, 102, 75, 0.1);
+	--status-unknown-border: rgba(108, 102, 75, 0.3);
 
-		--diff-black: #d1d5db;
-		--diff-blue: #60a5fa;
-		--diff-green: #4ade80;
-	}
+	--diff-black: #644ac9; /* purple — advanced */
+	--diff-blue: #036a96; /* cyan — intermediate */
+	--diff-green: #14710a; /* green — easy */
+
+	--accent: #a3144d; /* pink */
+
+	color-scheme: light;
 }
 
 *,
@@ -75,6 +81,14 @@
 
 body {
 	margin: 0;
+}
+
+body,
+.trail-card,
+.summary-chip,
+.site-header,
+.site-footer {
+	transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 #root {

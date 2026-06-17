@@ -5,10 +5,24 @@ import type { Trail } from './trailData';
 
 import './App.css';
 
+type Theme = 'dracula' | 'alucard';
+
+function getInitialTheme(): Theme {
+	const saved = localStorage.getItem('theme');
+	if (saved === 'dracula' || saved === 'alucard') return saved;
+	return window.matchMedia('(prefers-color-scheme: light)').matches ? 'alucard' : 'dracula';
+}
+
 function App() {
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [trails, setTrails] = useState<Trail[]>([]);
+	const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+	useEffect(() => {
+		document.documentElement.dataset.theme = theme;
+		localStorage.setItem('theme', theme);
+	}, [theme]);
 
 	useEffect(() => {
 		fetch('/api/trails')
@@ -28,6 +42,19 @@ function App() {
 	return (
 		<>
 			<header className="site-header">
+				<button
+					aria-checked={theme === 'dracula'}
+					className="theme-toggle"
+					onClick={() => setTheme((t) => (t === 'dracula' ? 'alucard' : 'dracula'))}
+					role="switch"
+					type="button"
+				>
+					<span className="theme-toggle__label theme-toggle__label--alucard">Alucard</span>
+					<span className="theme-toggle__track">
+						<span className="theme-toggle__knob" />
+					</span>
+					<span className="theme-toggle__label theme-toggle__label--dracula">Dracula</span>
+				</button>
 				<h1>CLE MTB Trails</h1>
 				<p className="site-header__subtitle">Trail conditions · Cleveland Metroparks</p>
 				{!loading && !error && (
