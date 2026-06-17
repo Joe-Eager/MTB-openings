@@ -14,7 +14,7 @@ interface Props {
 }
 
 function mapsUrl(trail: Trail): string {
-	const query = `${trail.name}, ${trail.location.replace(/·/g, ',')}`;
+	const query = trail.location.replace(/·/g, ',');
 	return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
