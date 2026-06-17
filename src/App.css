@@ -165,20 +165,58 @@
 	border-left-color: var(--status-closed);
 }
 
-.trail-card--unknown {
-	border-left-color: var(--status-unknown);
+.trail-card--stale {
+	border-left-color: var(--status-stale);
 }
 
-.trail-card__header {
+.trail-card__head {
 	align-items: center;
 	display: flex;
-	justify-content: space-between;
-	margin-bottom: 4px;
+	gap: 10px;
+}
+
+.trail-card__name {
+	flex: 1;
+	margin: 0;
+	min-width: 0;
+}
+
+.trail-card__summary {
+	align-items: center;
+	background: none;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+	display: flex;
+	font: inherit;
+	gap: 10px;
+	padding: 0;
+	text-align: left;
+	width: 100%;
+}
+
+.trail-card__title {
+	flex: 1;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.25;
+	min-width: 0;
+}
+
+.trail-card__chevron {
+	display: none;
+}
+
+.trail-card__details {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 
 .trail-card__badge {
 	border: 1px solid;
 	border-radius: 12px;
+	flex-shrink: 0;
 	font-size: 11px;
 	font-weight: 700;
 	letter-spacing: 0.6px;
@@ -204,21 +242,18 @@
 	color: var(--status-closed);
 }
 
-.trail-card__badge--unknown {
-	background: var(--status-unknown-bg);
-	border-color: var(--status-unknown-border);
-	color: var(--status-unknown);
+.trail-card__badge--stale {
+	background: var(--status-stale-bg);
+	border-color: var(--status-stale-border);
+	color: var(--status-stale);
 }
 
 .trail-card__updated {
 	color: var(--text);
+	flex-shrink: 0;
 	font-size: 12px;
 	opacity: 0.6;
-}
-
-.trail-card__name {
-	font-size: 20px;
-	line-height: 1.2;
+	white-space: nowrap;
 }
 
 .trail-card__location {
@@ -322,4 +357,48 @@
 	opacity: 0.7;
 	padding: 20px 24px;
 	text-align: center;
+}
+
+/* Mobile: collapse each card to a tappable summary row */
+@media (max-width: 768px) {
+	.trail-grid {
+		gap: 10px;
+		padding: 16px 12px;
+	}
+
+	.trail-card {
+		gap: 0;
+		padding: 12px 14px;
+	}
+
+	.trail-card__title {
+		font-size: 16px;
+	}
+
+	.trail-card__updated {
+		display: none;
+	}
+
+	.trail-card__chevron {
+		color: var(--text);
+		display: inline-block;
+		flex-shrink: 0;
+		font-size: 20px;
+		line-height: 1;
+		opacity: 0.6;
+		transition: transform 0.2s ease;
+	}
+
+	.trail-card.is-expanded .trail-card__chevron {
+		transform: rotate(90deg);
+	}
+
+	.trail-card__details {
+		display: none;
+		margin-top: 12px;
+	}
+
+	.trail-card.is-expanded .trail-card__details {
+		display: flex;
+	}
 }

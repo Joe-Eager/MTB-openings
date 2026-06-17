@@ -25,7 +25,8 @@ const METROPARKS_URL = 'https://www.clevelandmetroparks.com/parks/visit/activiti
 const CVNP_EAST_RIM_URL = 'https://camba.dualrates.com/a/r/szz/camba/trail?p6_id=103';
 const BSKY_API = 'https://public.api.bsky.app/xrpc';
 const CACHE_TTL = 5 * 60 * 1000;
-const STATUS_ORDER = { caution: 1, closed: 2, open: 0, unknown: 3 };
+const STALE_AFTER = 7 * 24 * 60 * 60 * 1000; // a week
+const STATUS_ORDER = { caution: 1, closed: 2, open: 0, stale: 3 };
 
 const TRAIL_META = {
 	'Bedford - Single Track': {
@@ -158,7 +159,7 @@ const STATIC_TRAILS = [
 		location: '10381 Hobart Rd, Kirtland, OH 44094',
 		miles: 9.0,
 		name: 'Chapin Forest',
-		status: 'unknown',
+		status: 'stale',
 		updatedAt: '—'
 	},
 	{
@@ -175,7 +176,7 @@ const STATIC_TRAILS = [
 		location: '6940 Cable Line Rd, Ravenna, OH 44266',
 		miles: 12.0,
 		name: 'West Branch',
-		status: 'unknown',
+		status: 'stale',
 		updatedAt: '—'
 	},
 	{
@@ -189,7 +190,7 @@ const STATIC_TRAILS = [
 		location: '58 N State St, Wellington, OH 44090',
 		miles: 5.7,
 		name: 'Findley State Park',
-		status: 'unknown',
+		status: 'stale',
 		updatedAt: '—'
 	},
 	{
@@ -200,7 +201,7 @@ const STATIC_TRAILS = [
 		location: '4300 Co Hwy 22, 4300 Mechanicsburg Rd, Wooster, OH 44691',
 		miles: 15.0,
 		name: "Vulture's Knob",
-		status: 'unknown',
+		status: 'stale',
 		updatedAt: '—'
 	},
 	{
@@ -214,7 +215,7 @@ const STATIC_TRAILS = [
 		location: '3116 OH-3, Loudonville, OH 44842',
 		miles: 25.0,
 		name: 'Mohican',
-		status: 'unknown',
+		status: 'stale',
 		updatedAt: '—'
 	}
 ];
@@ -225,6 +226,26 @@ function formatUpdatedAt(raw) {
 	const [, month, day, , time, period] = match;
 	const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 	return `${months[+month - 1]} ${+day}, ${time} ${period}`;
+}
+
+// Best-effort parse of a source's update time into epoch ms (null if unknown),
+// used only to decide staleness — the display string stays whatever the source gave.
+function parseMetroparksDate(raw) {
+	const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d+):(\d+) (AM|PM)/);
+	if (!m) return null;
+	const [, month, day, year, hour, minute, period] = m;
+	const h = (+hour % 12) + (period === 'PM' ? 12 : 0);
+	return new Date(+year, +month - 1, +day, h, +minute).getTime();
+}
+
+function parseRelativeOrDate(text) {
+	const rel = text.match(/(\d+)\s*(minute|hour|day|week)s?\s+ago/i);
+	if (rel) {
+		const unit = { minute: 60e3, hour: 3600e3, day: 86400e3, week: 604800e3 }[rel[2].toLowerCase()];
+		return Date.now() - +rel[1] * unit;
+	}
+	const t = Date.parse(text);
+	return Number.isNaN(t) ? null : t;
 }
 
 function inferStatus(text) {
@@ -282,6 +303,7 @@ async function scrapeMetroparks() {
 			miles: meta.miles,
 			name,
 			status,
+			timestamp: parseMetroparksDate(rawDate),
 			updatedAt: formatUpdatedAt(rawDate)
 		});
 	});
@@ -334,6 +356,7 @@ async function scrapeCvnpEastRim() {
 		miles: CVNP_EAST_RIM.miles,
 		name: CVNP_EAST_RIM.name,
 		status,
+		timestamp: ago ? parseRelativeOrDate(ago[1].trim()) : null,
 		updatedAt: ago ? ago[1].trim() : '—'
 	};
 }
@@ -342,7 +365,7 @@ function trailforksStatus(iconClass) {
 	if (/\bsgreen\b/.test(iconClass)) return 'open';
 	if (/\bsred\b/.test(iconClass)) return 'closed';
 	if (/\bs(yellow|orange|blue)\b/.test(iconClass)) return 'caution';
-	return 'unknown';
+	return 'stale';
 }
 
 async function fetchTrailforksRegions() {
@@ -369,6 +392,7 @@ async function fetchTrailforksRegions() {
 					miles: region.miles,
 					name: region.name,
 					status: trailforksStatus(icon.attr('class') ?? ''),
+					timestamp: asOf ? parseRelativeOrDate(asOf) : null,
 					updatedAt: asOf || '—'
 				};
 			} catch {
@@ -380,7 +404,7 @@ async function fetchTrailforksRegions() {
 					location: region.location,
 					miles: region.miles,
 					name: region.name,
-					status: 'unknown',
+					status: 'stale',
 					updatedAt: '—'
 				};
 			}
@@ -414,6 +438,7 @@ async function fetchBskyTrails() {
 				miles: account.miles,
 				name: account.name,
 				status: inferStatus(text),
+				timestamp: Date.parse(post.indexedAt),
 				updatedAt: formatBskyDate(post.indexedAt)
 			};
 		})
@@ -443,7 +468,7 @@ async function getAllTrails() {
 			: {
 					...CVNP_EAST_RIM,
 					condition: 'No live data — check the links below for current conditions.',
-					status: 'unknown',
+					status: 'stale',
 					updatedAt: '—'
 				};
 
@@ -452,9 +477,13 @@ async function getAllTrails() {
 		throw new Error('All sources failed');
 	}
 
-	const trails = [...metroparks, ...bsky, cvnp, ...trailforks, ...STATIC_TRAILS].sort(
-		(a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]
-	);
+	const now = Date.now();
+	const trails = [...metroparks, ...bsky, cvnp, ...trailforks, ...STATIC_TRAILS]
+		.map(({ timestamp, ...trail }) => {
+			const stale = trail.status === 'stale' || (timestamp != null && now - timestamp > STALE_AFTER);
+			return stale ? { ...trail, status: 'stale' } : trail;
+		})
+		.sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]);
 
 	cachedTrails = trails;
 	cacheExpiry = Date.now() + CACHE_TTL;

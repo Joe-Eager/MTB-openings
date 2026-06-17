@@ -1,6 +1,6 @@
 /* Dracula palette — https://draculatheme.com/contribute */
 :root {
-	--text: #6272a4; /* comment — muted text */
+	--text: #f8f8f2; /* foreground — flattened to high-emphasis for legibility */
 	--text-h: #f8f8f2; /* foreground — high-emphasis text */
 	--bg: #282a36; /* background */
 	--card-bg: #343746; /* elevated surface */
@@ -18,9 +18,9 @@
 	--status-closed-bg: rgba(255, 85, 85, 0.12);
 	--status-closed-border: rgba(255, 85, 85, 0.35);
 
-	--status-unknown: #6272a4; /* comment */
-	--status-unknown-bg: rgba(98, 114, 164, 0.12);
-	--status-unknown-border: rgba(98, 114, 164, 0.4);
+	--status-stale: #6272a4; /* comment */
+	--status-stale-bg: rgba(98, 114, 164, 0.12);
+	--status-stale-border: rgba(98, 114, 164, 0.4);
 
 	--diff-black: #bd93f9; /* purple — advanced */
 	--diff-blue: #8be9fd; /* cyan — intermediate */
@@ -60,9 +60,9 @@
 	--status-closed-bg: rgba(203, 58, 42, 0.1);
 	--status-closed-border: rgba(203, 58, 42, 0.3);
 
-	--status-unknown: #6c664b; /* comment */
-	--status-unknown-bg: rgba(108, 102, 75, 0.1);
-	--status-unknown-border: rgba(108, 102, 75, 0.3);
+	--status-stale: #6c664b; /* comment */
+	--status-stale-bg: rgba(108, 102, 75, 0.1);
+	--status-stale-border: rgba(108, 102, 75, 0.3);
 
 	--diff-black: #644ac9; /* purple — advanced */
 	--diff-blue: #036a96; /* cyan — intermediate */

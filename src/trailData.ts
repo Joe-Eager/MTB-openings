@@ -1,5 +1,5 @@
 export type Difficulty = 'black' | 'blue' | 'green';
-export type TrailStatus = 'caution' | 'closed' | 'open' | 'unknown';
+export type TrailStatus = 'caution' | 'closed' | 'open' | 'stale';
 
 export interface TrailLink {
 	name: string;
