@@ -58,10 +58,16 @@
 }
 
 @media (max-width: 768px) {
-	.theme-toggle {
-		position: static;
-		justify-content: center;
-		margin: 0 auto 16px;
+	.site-header {
+		padding: 16px 16px 20px;
+	}
+
+	.theme-toggle__label {
+		display: none;
+	}
+
+	.site-header__summary {
+		margin-top: 14px;
 	}
 }
 

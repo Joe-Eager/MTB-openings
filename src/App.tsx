@@ -44,6 +44,7 @@ function App() {
 			<header className="site-header">
 				<button
 					aria-checked={theme === 'dracula'}
+					aria-label="Dark theme"
 					className="theme-toggle"
 					onClick={() => setTheme((t) => (t === 'dracula' ? 'alucard' : 'dracula'))}
 					role="switch"
