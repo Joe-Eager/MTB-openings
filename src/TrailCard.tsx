@@ -1,6 +1,24 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 import type { Trail } from './trailData';
+
+// Matches the mobile breakpoint in App.css. On mobile the whole card already
+// collapses/expands on tap, so the condition clamp is desktop-only.
+const MOBILE_QUERY = '(max-width: 768px)';
+
+function useMediaQuery(query: string): boolean {
+	const [matches, setMatches] = useState(() =>
+		typeof window === 'undefined' ? false : window.matchMedia(query).matches
+	);
+	useLayoutEffect(() => {
+		const mql = window.matchMedia(query);
+		const onChange = () => setMatches(mql.matches);
+		onChange();
+		mql.addEventListener('change', onChange);
+		return () => mql.removeEventListener('change', onChange);
+	}, [query]);
+	return matches;
+}
 
 const STATUS_LABEL: Record<Trail['status'], string> = {
 	caution: 'Caution',
@@ -42,11 +60,37 @@ function timeAgo(timestamp: number | null): string {
 
 function TrailCard({ trail }: Props) {
 	const [expanded, setExpanded] = useState(false);
+	const [conditionOpen, setConditionOpen] = useState(false);
+	const [conditionOverflows, setConditionOverflows] = useState(false);
+	const conditionRef = useRef<HTMLParagraphElement>(null);
+	const isMobile = useMediaQuery(MOBILE_QUERY);
 	const detailsId = `trail-details-${trail.id}`;
 	const displayName = trail.name.replace('Ohio & Erie Canal', 'OECR');
 
+	// Detect whether the clamped condition overflows so we only show the toggle
+	// when it's needed. Skip while expanded (the text is unclamped then, so it
+	// wouldn't overflow) to preserve the previous reading and keep the toggle.
+	const clamped = !isMobile && !conditionOpen;
+	useLayoutEffect(() => {
+		const el = conditionRef.current;
+		if (isMobile || !el) {
+			setConditionOverflows(false);
+			return;
+		}
+		const measure = () => {
+			if (conditionOpen) return;
+			setConditionOverflows(el.scrollHeight - el.clientHeight > 1);
+		};
+		measure();
+		const observer = new ResizeObserver(measure);
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [trail.condition, isMobile, conditionOpen]);
+
 	return (
-		<article className={`trail-card trail-card--${trail.status}${expanded ? ' is-expanded' : ''}`}>
+		<article
+			className={`trail-card trail-card--${trail.stale ? 'stale' : trail.status}${expanded ? ' is-expanded' : ''}`}
+		>
 			<div className='trail-card__head'>
 				<h2 className='trail-card__name'>
 					<button
@@ -56,7 +100,7 @@ function TrailCard({ trail }: Props) {
 						onClick={() => setExpanded((v) => !v)}
 						type='button'
 					>
-						<span className={`trail-card__badge trail-card__badge--${trail.status}`}>
+						<span className={`trail-card__badge trail-card__badge--${trail.stale ? 'stale' : trail.status}`}>
 							{STATUS_LABEL[trail.status]}
 						</span>
 						<span className='trail-card__title'>{displayName}</span>
@@ -76,7 +120,25 @@ function TrailCard({ trail }: Props) {
 				>
 					{trail.location}
 				</a>
-				<p className='trail-card__condition'>{trail.condition}</p>
+				<p
+					onClick={!isMobile && conditionOverflows ? () => setConditionOpen((v) => !v) : undefined}
+					ref={conditionRef}
+					className={`trail-card__condition${clamped ? ' trail-card__condition--clamp' : ''}${
+						!isMobile && conditionOverflows ? ' trail-card__condition--toggle' : ''
+					}`}
+				>
+					{trail.condition}
+				</p>
+				{!isMobile && conditionOverflows && (
+					<button
+						aria-expanded={conditionOpen}
+						className='trail-card__more'
+						onClick={() => setConditionOpen((v) => !v)}
+						type='button'
+					>
+						{conditionOpen ? 'Show less' : 'Show more'}
+					</button>
+				)}
 				<div className='trail-card__foot'>
 					{trail.timestamp != null && (
 						<span className='trail-card__updated' title={trail.updatedAt}>

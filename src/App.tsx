@@ -35,9 +35,9 @@ function App() {
 			.finally(() => setLoading(false));
 	}, []);
 
-	const cautionCount = trails.filter((t) => t.status === 'caution').length;
-	const closedCount = trails.filter((t) => t.status === 'closed').length;
-	const openCount = trails.filter((t) => t.status === 'open').length;
+	const cautionCount = trails.filter((t) => !t.stale && t.status === 'caution').length;
+	const closedCount = trails.filter((t) => !t.stale && t.status === 'closed').length;
+	const openCount = trails.filter((t) => !t.stale && t.status === 'open').length;
 
 	return (
 		<>

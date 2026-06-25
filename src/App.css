@@ -281,6 +281,38 @@
 	padding-top: 5px;
 }
 
+/* Desktop: clamp long conditions to a few lines with an ellipsis (toggled open
+   by the Show more button). Mobile never gets this class. */
+.trail-card__condition--clamp {
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	overflow: hidden;
+}
+
+.trail-card__condition--toggle {
+	cursor: pointer;
+}
+
+.trail-card__more {
+	align-self: flex-start;
+	background: none;
+	border: none;
+	color: var(--text-h);
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	opacity: 0.7;
+	padding: 0;
+	transition: opacity 0.15s;
+
+	&:hover {
+		opacity: 1;
+		text-decoration: underline;
+	}
+}
+
 .trail-card__links {
 	align-items: center;
 	border-top: 1px solid var(--border);

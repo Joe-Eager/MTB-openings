@@ -7,6 +7,7 @@ Live trail status page for mountain bike trails around Cleveland, Ohio. Shows op
 - Scrapes live status from [Cleveland Metroparks](https://www.clevelandmetroparks.com/parks/visit/activities/mountain-biking/trail-status)
 - Pulls latest post from Bluesky accounts that post trail conditions (e.g. Summit Metro Parks)
 - Scrapes CVNP East Rim conditions from CAMBA Trailmate
+- Pulls community-reported conditions for every CAMBA-tracked trail from the [CAMBA Trailmate home page](https://dualrates.com/a/r/szz/camba/home) in one fetch — used as a fallback to refresh a trail when its primary source is missing/stale or older than the CAMBA post, and to surface trails that have no other live source
 - Pulls community-reported conditions from TrailForks regions
 - Shows static link cards for trails without live data sources
 - Marks status stale after a week with no update
@@ -123,6 +124,7 @@ All sources live in `server.mjs`:
 - **Bluesky accounts**: add an entry to `BSKY_ACCOUNTS`
 - **TrailForks regions** (community-reported conditions): add an entry to `TRAILFORKS_REGIONS`
 - **CVNP East Rim**: configured via the `CVNP_EAST_RIM` entry
+- **CAMBA Trailmate**: the home page lists every CAMBA-tracked trail. To let it refresh a trail you already track, map the trail's CAMBA `p6_id` (from its `trail?p6_id=…` URL) to your app trail id in `CAMBA_TRAIL_IDS`. To surface a CAMBA-only trail as its own card, add an entry (name, location, links) to `CAMBA_NEW_TRAILS` keyed by `p6_id`
 - **Static link cards** (trails with no live data): add an entry to `STATIC_TRAILS`
 
 ## License

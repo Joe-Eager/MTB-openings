@@ -1,4 +1,3 @@
-export type Difficulty = 'black' | 'blue' | 'green';
 export type TrailStatus = 'caution' | 'closed' | 'open' | 'stale';
 
 export interface TrailLink {
@@ -8,12 +7,11 @@ export interface TrailLink {
 
 export interface Trail {
 	condition: string;
-	difficulty: Difficulty;
 	id: string;
 	links: TrailLink[];
 	location: string;
-	miles: number;
 	name: string;
+	stale: boolean;
 	status: TrailStatus;
 	timestamp: number | null;
 	updatedAt: string;
