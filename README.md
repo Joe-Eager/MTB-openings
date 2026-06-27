@@ -7,7 +7,7 @@ Live trail status page for mountain bike trails around Cleveland, Ohio. Shows op
 - Scrapes live status from [Cleveland Metroparks](https://www.clevelandmetroparks.com/parks/visit/activities/mountain-biking/trail-status)
 - Pulls latest post from Bluesky accounts that post trail conditions (e.g. Summit Metro Parks)
 - Scrapes CVNP East Rim conditions from CAMBA Trailmate
-- Pulls community-reported conditions for every CAMBA-tracked trail from the [CAMBA Trailmate home page](https://dualrates.com/a/r/szz/camba/home) in one fetch — used as a fallback to refresh a trail when its primary source is missing/stale or older than the CAMBA post, and to surface trails that have no other live source
+- Pulls community-reported conditions for every CAMBA-tracked trail from the [CAMBA Trailmate home page](https://dualrates.com/a/r/szz/camba/home) in one fetch, used as a fallback to refresh a trail when its primary source is missing/stale or older than the CAMBA post, and to surface trails that have no other live source
 - Pulls community-reported conditions from TrailForks regions
 - Shows static link cards for trails without live data sources
 - Marks status stale after a week with no update

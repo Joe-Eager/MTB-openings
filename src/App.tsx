@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import TrailCard from './TrailCard';
 import type { Trail } from './trailData';
@@ -7,10 +7,62 @@ import './App.css';
 
 type Theme = 'dracula' | 'alucard';
 
+type SortKey = 'name' | 'status' | 'updated';
+
+const SORT_OPTIONS: { label: string; value: SortKey }[] = [
+	{ label: 'Recently updated', value: 'updated' },
+	{ label: 'Status', value: 'status' },
+	{ label: 'Name', value: 'name' }
+];
+
+// Status sort priority: open trails surface first, stale last.
+const STATUS_ORDER: Record<Trail['status'], number> = {
+	caution: 1,
+	closed: 2,
+	open: 0,
+	stale: 3
+};
+
 function getInitialTheme(): Theme {
 	const saved = localStorage.getItem('theme');
 	if (saved === 'dracula' || saved === 'alucard') return saved;
 	return window.matchMedia('(prefers-color-scheme: light)').matches ? 'alucard' : 'dracula';
+}
+
+function getInitialSort(): SortKey {
+	const saved = localStorage.getItem('sort');
+	if (saved === 'name' || saved === 'status' || saved === 'updated') return saved;
+	return 'updated';
+}
+
+function getInitialFavorites(): Set<string> {
+	try {
+		const saved = JSON.parse(localStorage.getItem('favorites') ?? '[]') as unknown;
+		if (Array.isArray(saved)) return new Set(saved.filter((id): id is string => typeof id === 'string'));
+	} catch {
+		// ignore malformed storage
+	}
+	return new Set();
+}
+
+function compareTrails(a: Trail, b: Trail, sort: SortKey): number {
+	switch (sort) {
+		case 'name':
+			return a.name.localeCompare(b.name);
+		case 'updated':
+			return (b.timestamp ?? 0) - (a.timestamp ?? 0);
+		case 'status':
+		default:
+			// Fresh reports before stale ones, then by the reported status (so an
+			// open-but-stale trail beats a stale-stale one), then most recently
+			// posted first, then name.
+			return (
+				Number(a.stale) - Number(b.stale) ||
+				STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
+				(b.timestamp ?? 0) - (a.timestamp ?? 0) ||
+				a.name.localeCompare(b.name)
+			);
+	}
 }
 
 function App() {
@@ -18,11 +70,49 @@ function App() {
 	const [loading, setLoading] = useState(true);
 	const [trails, setTrails] = useState<Trail[]>([]);
 	const [theme, setTheme] = useState<Theme>(getInitialTheme);
+	const [sort, setSort] = useState<SortKey>(getInitialSort);
+	const [favorites, setFavorites] = useState<Set<string>>(getInitialFavorites);
+	const [favoritesFirst, setFavoritesFirst] = useState(
+		() => localStorage.getItem('favoritesFirst') === 'true'
+	);
 
 	useEffect(() => {
 		document.documentElement.dataset.theme = theme;
 		localStorage.setItem('theme', theme);
 	}, [theme]);
+
+	useEffect(() => {
+		localStorage.setItem('sort', sort);
+	}, [sort]);
+
+	useEffect(() => {
+		localStorage.setItem('favorites', JSON.stringify([...favorites]));
+	}, [favorites]);
+
+	useEffect(() => {
+		localStorage.setItem('favoritesFirst', String(favoritesFirst));
+	}, [favoritesFirst]);
+
+	const toggleFavorite = (id: string) =>
+		setFavorites((prev) => {
+			const next = new Set(prev);
+			if (next.has(id)) next.delete(id);
+			else next.add(id);
+			return next;
+		});
+
+	// When favoritesFirst is on, favorites are pinned above everything else; the
+	// chosen sort then orders within each group. Otherwise it's a plain sort.
+	const sortedTrails = useMemo(() => {
+		return [...trails].sort((a, b) => {
+			if (favoritesFirst) {
+				const favA = favorites.has(a.id);
+				const favB = favorites.has(b.id);
+				if (favA !== favB) return favA ? -1 : 1;
+			}
+			return compareTrails(a, b, sort);
+		});
+	}, [trails, favorites, favoritesFirst, sort]);
 
 	useEffect(() => {
 		fetch('/api/trails')
@@ -76,13 +166,55 @@ function App() {
 				<h1>CLE MTB Trails</h1>
 				<p className="site-header__subtitle">Trail conditions · Cleveland Metroparks</p>
 				{!loading && !error && (
-					<div className="site-header__summary">
-						<span className="summary-chip summary-chip--open">{openCount} open</span>
-						{cautionCount > 0 && (
-							<span className="summary-chip summary-chip--caution">{cautionCount} caution</span>
-						)}
-						<span className="summary-chip summary-chip--closed">{closedCount} closed</span>
-					</div>
+					<>
+						<div className="site-header__summary">
+							<span className="summary-chip summary-chip--open">{openCount} open</span>
+							{cautionCount > 0 && (
+								<span className="summary-chip summary-chip--caution">{cautionCount} caution</span>
+							)}
+							<span className="summary-chip summary-chip--closed">{closedCount} closed</span>
+						</div>
+						<div className="header-controls">
+							<label className="sort-control">
+								<span className="sort-control__label">Sort by</span>
+								<select
+									className="sort-control__select"
+									onChange={(e) => setSort(e.target.value as SortKey)}
+									value={sort}
+								>
+									{SORT_OPTIONS.map((opt) => (
+										<option key={opt.value} value={opt.value}>
+											{opt.label}
+										</option>
+									))}
+								</select>
+							</label>
+							<button
+								aria-checked={favoritesFirst}
+								aria-label="Pin favorites to top"
+								className="fav-toggle"
+								onClick={() => setFavoritesFirst((v) => !v)}
+								role="switch"
+								type="button"
+							>
+								<span className="fav-toggle__track">
+									<span className="fav-toggle__knob">
+										<svg
+											aria-hidden="true"
+											className="fav-toggle__icon"
+											fill={favoritesFirst ? 'currentColor' : 'none'}
+											stroke="currentColor"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											viewBox="0 0 24 24"
+										>
+											<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+										</svg>
+									</span>
+								</span>
+							</button>
+						</div>
+					</>
 				)}
 			</header>
 			<main className="trail-grid">
@@ -92,7 +224,16 @@ function App() {
 						Could not load trail conditions. Check the server is running.
 					</p>
 				)}
-				{!loading && !error && trails.map((trail) => <TrailCard key={trail.id} trail={trail} />)}
+				{!loading &&
+					!error &&
+					sortedTrails.map((trail) => (
+						<TrailCard
+							isFavorite={favorites.has(trail.id)}
+							key={trail.id}
+							onToggleFavorite={toggleFavorite}
+							trail={trail}
+						/>
+					))}
 			</main>
 			<footer className="site-footer">
 				<p>Data from Cleveland Metroparks · Cached for 5 minutes · Built {new Date(__BUILD_TIME__).toLocaleString('en-US', { day: 'numeric', hour: 'numeric', minute: '2-digit', month: 'short' })}</p>

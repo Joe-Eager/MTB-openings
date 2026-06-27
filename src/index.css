@@ -1,7 +1,7 @@
-/* Dracula palette — https://draculatheme.com/contribute */
+/* Dracula palette: https://draculatheme.com/contribute */
 :root {
-	--text: #f8f8f2; /* foreground — flattened to high-emphasis for legibility */
-	--text-h: #f8f8f2; /* foreground — high-emphasis text */
+	--text: #f8f8f2; /* foreground: flattened to high-emphasis for legibility */
+	--text-h: #f8f8f2; /* foreground: high-emphasis text */
 	--bg: #282a36; /* background */
 	--card-bg: #343746; /* elevated surface */
 	--border: #44475a; /* current line */
@@ -22,9 +22,9 @@
 	--status-stale-bg: rgba(98, 114, 164, 0.12);
 	--status-stale-border: rgba(98, 114, 164, 0.4);
 
-	--diff-black: #bd93f9; /* purple — advanced */
-	--diff-blue: #8be9fd; /* cyan — intermediate */
-	--diff-green: #50fa7b; /* green — easy */
+	--diff-black: #bd93f9; /* purple: advanced */
+	--diff-blue: #8be9fd; /* cyan: intermediate */
+	--diff-green: #50fa7b; /* green: easy */
 
 	--accent: #ff79c6; /* pink */
 
@@ -40,10 +40,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Alucard palette — Dracula's official light counterpart (https://draculatheme.com/spec) */
+/* Alucard palette: Dracula's official light counterpart (https://draculatheme.com/spec) */
 :root[data-theme='alucard'] {
-	--text: #6c664b; /* comment — muted text */
-	--text-h: #1f1f1f; /* foreground — high-emphasis text */
+	--text: #6c664b; /* comment: muted text */
+	--text-h: #1f1f1f; /* foreground: high-emphasis text */
 	--bg: #fffbeb; /* background */
 	--card-bg: #ffffff; /* elevated surface */
 	--border: #cfcfde; /* selection */
@@ -64,9 +64,9 @@
 	--status-stale-bg: rgba(108, 102, 75, 0.1);
 	--status-stale-border: rgba(108, 102, 75, 0.3);
 
-	--diff-black: #644ac9; /* purple — advanced */
-	--diff-blue: #036a96; /* cyan — intermediate */
-	--diff-green: #14710a; /* green — easy */
+	--diff-black: #644ac9; /* purple: advanced */
+	--diff-blue: #036a96; /* cyan: intermediate */
+	--diff-green: #14710a; /* green: easy */
 
 	--accent: #a3144d; /* pink */
 

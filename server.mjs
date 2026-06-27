@@ -38,7 +38,7 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/bedford-reservation/' }
 		],
-		location: '7599 Dunham Rd #7507, Walton Hills, OH 44146'
+		location: '9C5P+GH Walton Hills, Ohio'
 	},
 	'Ohio & Erie Canal - Flow Trail': {
 		id: 'oec-flow',
@@ -46,7 +46,7 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/ohio--erie-canal-reservation/' }
 		],
-		location: '4524 E 49th St, Cleveland, OH 44125'
+		location: 'C8JQ+92 Cleveland, Ohio'
 	},
 	'Ohio & Erie Canal - Primitive Loop & Canal Trail': {
 		id: 'oec-primitive',
@@ -54,7 +54,7 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/ohio--erie-canal-reservation/' }
 		],
-		location: '4524 E 49th St, Cleveland, OH 44125'
+		location: 'C8JQ+92 Cleveland, Ohio'
 	},
 	'Ohio & Erie Canal - Pump Track': {
 		id: 'oec-pump',
@@ -62,7 +62,7 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/ohio--erie-canal-reservation/' }
 		],
-		location: '4524 E 49th St, Cleveland, OH 44125'
+		location: 'C8JQ+92 Cleveland, Ohio'
 	},
 	'Royalview - Red Loop': {
 		id: 'royalview-red',
@@ -70,7 +70,7 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/trails/royalview-red-trail/' }
 		],
-		location: 'Royalview Ln, Strongsville, OH 44136'
+		location: '8664+8H Strongsville, Ohio'
 	},
 	'Royalview - Yellow Loop': {
 		id: 'royalview-yellow',
@@ -78,7 +78,7 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/trails/royalview-yellow/' }
 		],
-		location: 'Royalview Ln, Strongsville, OH 44136'
+		location: '852W+87 Strongsville, Ohio'
 	},
 	'West Creek - Mountain Bike Trails': {
 		id: 'west-creek',
@@ -86,8 +86,22 @@ const TRAIL_META = {
 			{ name: 'Cleveland Metroparks', url: METROPARKS_URL },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/hampton-hills-15249/' }
 		],
-		location: 'Bluebird Point, Parma, OH 44134'
+		location: '98Q4+68 Parma, Ohio'
 	}
+};
+
+// Some trails have more than one trailhead lot. When a trail id appears here it
+// is rendered as one card per lot, each sharing the trail's scraped status,
+// condition, and timestamp but with its own name and Maps location.
+const TRAILHEAD_SPLITS = {
+	'bedford-single': [
+		{ id: 'bedford-olander', location: '9C5P+GH Walton Hills, Ohio', name: 'Bedford - Olander Lot' },
+		{ id: 'bedford-farley', location: '9CFM+2R Walton Hills, Ohio', name: 'Bedford - Farley Lot' }
+	],
+	'reagan-park': [
+		{ id: 'reagan-loop', location: '5535+9W Medina, Ohio', name: 'Reagan Park - Reagan Loop' },
+		{ id: 'reagan-river', location: '5549+56 Medina, Ohio', name: 'Reagan Park - River Trail' }
+	]
 };
 
 const BSKY_ACCOUNTS = [
@@ -98,7 +112,7 @@ const BSKY_ACCOUNTS = [
 			{ name: 'Bluesky · @smpmountainbike', url: 'https://bsky.app/profile/smpmountainbike.bsky.social' },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/hampton-hills-15249/' }
 		],
-		location: '2092 Theiss Rd, Akron, OH 44313',
+		location: '5C2X+FP Akron, Ohio',
 		name: 'Hampton Hills'
 	}
 ];
@@ -111,7 +125,7 @@ const CVNP_EAST_RIM = {
 		{ name: 'NPS Conditions', url: 'https://www.nps.gov/cuva/planyourvisit/conditions.htm' },
 		{ name: 'TrailForks', url: 'https://www.trailforks.com/region/east-rim-trails/' }
 	],
-	location: '281 Boston Mills Rd, Peninsula, OH 44264',
+	location: '7F4J+3C Peninsula, Ohio',
 	name: 'CVNP East Rim'
 };
 
@@ -124,7 +138,7 @@ const TRAILFORKS_REGIONS = [
 			{ name: 'Facebook · Wick’s Outlaw Trails', url: 'https://www.facebook.com/WicksOutlawTrails/' },
 			{ name: 'Instagram · @wicks_outlaw_trails', url: 'https://www.instagram.com/wicks_outlaw_trails/' }
 		],
-		location: '5741 River Styx Rd, Medina, OH 44256',
+		location: '459P+6R Medina, Ohio',
 		name: 'Austin Badger Park',
 		url: 'https://www.trailforks.com/region/austin-badger-park-17345/'
 	}
@@ -132,19 +146,19 @@ const TRAILFORKS_REGIONS = [
 
 const STATIC_TRAILS = [
 	{
-		condition: 'No live data — check the links below for current conditions.',
+		condition: 'No live data. Check the links below for current conditions.',
 		id: 'chapin-forest',
 		links: [
 			{ name: 'Lake Metroparks', url: 'https://lakemetroparks.com/parks-trails/chapin-forest-reservation/' },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/chapin-forest-reservation-50222/' }
 		],
-		location: '10381 Hobart Rd, Kirtland, OH 44094',
+		location: 'HJQJ+R6 Kirtland, Ohio',
 		name: 'Chapin Forest',
 		status: 'stale',
 		updatedAt: '—'
 	},
 	{
-		condition: 'No live data — check the links below for current conditions.',
+		condition: 'No live data. Check the links below for current conditions.',
 		id: 'west-branch',
 		links: [
 			{
@@ -153,40 +167,28 @@ const STATIC_TRAILS = [
 			},
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/west-branch-state-park/' }
 		],
-		location: '6940 Cable Line Rd, Ravenna, OH 44266',
+		location: '4VJ5+V4 Ravenna, Ohio',
 		name: 'West Branch',
 		status: 'stale',
 		updatedAt: '—'
 	},
 	{
-		condition: 'No live data — check the links below for current conditions.',
-		id: 'findley',
-		links: [
-			{ name: 'Ohio DNR', url: 'https://ohiodnr.gov/go-and-do/plan-a-visit/find-a-property/findley-state-park' },
-			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/findley-state-park/' }
-		],
-		location: '58 N State St, Wellington, OH 44090',
-		name: 'Findley State Park',
-		status: 'stale',
-		updatedAt: '—'
-	},
-	{
-		condition: 'No live data — check the links below for current conditions.',
+		condition: 'No live data. Check the links below for current conditions.',
 		id: 'vulturesknob',
 		links: [{ name: 'TrailForks', url: 'https://www.trailforks.com/region/vultures-knob/' }],
-		location: '4300 Co Hwy 22, 4300 Mechanicsburg Rd, Wooster, OH 44691',
+		location: 'V229+9R Wooster, Ohio',
 		name: "Vulture's Knob",
 		status: 'stale',
 		updatedAt: '—'
 	},
 	{
-		condition: 'No live data — check the links below for current conditions.',
+		condition: 'No live data. Check the links below for current conditions.',
 		id: 'mohican',
 		links: [
 			{ name: 'Ohio DNR', url: 'https://ohiodnr.gov/go-and-do/plan-a-visit/find-a-property/mohican-state-park' },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/mohican-state-park/' }
 		],
-		location: '3116 OH-3, Loudonville, OH 44842',
+		location: 'JP5R+6Q Loudonville, Ohio',
 		name: 'Mohican',
 		status: 'stale',
 		updatedAt: '—'
@@ -225,49 +227,52 @@ const CAMBA_NEW_TRAILS = {
 	109: {
 		id: 'camp-tuscazoar',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(109) }],
-		location: 'Camp Tuscazoar, Zoar, OH',
+		location: 'GJW2+G2 Dover, Ohio',
 		name: 'Camp Tuscazoar'
 	},
 	110: {
 		id: 'thorn-ftp',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(110) }],
-		location: 'Thorn (FTP) Trail, Ohio',
+		location: '4QQP+98 Wellington, Ohio',
 		name: 'Thorn (FTP)'
 	},
 	111: {
 		id: 'rays-indoor',
-		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(111) }],
-		location: "Ray's MTB, 9801 Walford Ave, Cleveland, OH 44102",
+		links: [
+			{ name: 'CAMBA Trailmate', url: cambaTrailUrl(111) },
+			{ name: "Ray's homepage", url: 'https://www.raysmtb.com/about/prices-hours-and-directions-pg141.htm' }
+		],
+		location: 'F63X+V3 Cleveland, Ohio',
 		name: "Ray's Indoor Mountain Bike Park"
 	},
 	112: {
 		id: 'lake-milton',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(112) }],
-		location: 'Lake Milton State Park, Lake Milton, OH',
+		location: '324M+H2 Berlin Center, Ohio',
 		name: 'Lake Milton'
 	},
 	113: {
 		id: 'huffman',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(113) }],
-		location: 'Huffman MetroPark, Dayton, OH',
+		location: 'RW44+2M Dayton, Ohio',
 		name: 'Huffman'
 	},
 	114: {
 		id: 'reagan-park',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(114) }],
-		location: 'Reagan Park, Medina, OH',
+		location: '5535+9W Medina, Ohio',
 		name: 'Reagan Park'
 	},
 	116: {
 		id: 'quail-hollow',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(116) }],
-		location: 'Quail Hollow State Park, Hartville, OH',
+		location: 'XMGQ+PR Hartville, Ohio',
 		name: 'Quail Hollow'
 	},
 	117: {
 		id: 'big-creek',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(117) }],
-		location: 'Big Creek Park, Chardon, OH',
+		location: 'JQ9V+89 Chardon, OH',
 		name: 'Big Creek'
 	}
 };
@@ -281,7 +286,7 @@ function formatUpdatedAt(raw) {
 }
 
 // Best-effort parse of a source's update time into epoch ms (null if unknown),
-// used only to decide staleness — the display string stays whatever the source gave.
+// used only to decide staleness. The display string stays whatever the source gave.
 function parseMetroparksDate(raw) {
 	const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d+):(\d+) (AM|PM)/);
 	if (!m) return null;
@@ -394,7 +399,7 @@ async function scrapeCvnpEastRim() {
 	else if (statusClass.includes('u-warning')) status = 'caution';
 	else status = inferStatus(statusText);
 
-	// statusText reads e.g. "Open as of 47 hours ago" — keep the relative time as-is.
+	// statusText reads e.g. "Open as of 47 hours ago"; keep the relative time as-is.
 	const ago = statusText.match(/as of (.+)$/i);
 
 	return {
@@ -491,7 +496,7 @@ async function fetchTrailforksRegions() {
 				};
 			} catch {
 				return {
-					condition: 'No live data — check the links below for current conditions.',
+					condition: 'No live data. Check the links below for current conditions.',
 					id: region.id,
 					links: region.links,
 					location: region.location,
@@ -559,7 +564,7 @@ async function getAllTrails() {
 			? cvnpResult.value
 			: {
 					...CVNP_EAST_RIM,
-					condition: 'No live data — check the links below for current conditions.',
+					condition: 'No live data. Check the links below for current conditions.',
 					status: 'stale',
 					updatedAt: '—'
 				};
@@ -620,9 +625,17 @@ async function getAllTrails() {
 		if (!trail.stale) return STATUS_ORDER[trail.status];
 		return trail.status === 'stale' ? STATUS_ORDER.stale + 1 : STATUS_ORDER.stale;
 	};
+	// Expand multi-trailhead trails into one card per lot, sharing the scraped
+	// status/condition/timestamp but with each lot's own name and location.
+	const splitTrailheads = (trail) =>
+		(TRAILHEAD_SPLITS[trail.id] ?? [trail]).map((head) =>
+			head === trail ? trail : { ...trail, id: head.id, location: head.location, name: head.name }
+		);
+
 	const trails = [...metroparks, ...bsky, cvnp, ...trailforks, ...STATIC_TRAILS]
 		.map(refreshWithCamba)
 		.concat(cambaNew)
+		.flatMap(splitTrailheads)
 		.map((trail) => {
 			const timestamp = trail.timestamp ?? null;
 			const stale = trail.status === 'stale' || (timestamp != null && now - timestamp > STALE_AFTER);

@@ -28,12 +28,20 @@ const STATUS_LABEL: Record<Trail['status'], string> = {
 };
 
 interface Props {
+	isFavorite: boolean;
+	onToggleFavorite: (id: string) => void;
 	trail: Trail;
 }
 
 function mapsUrl(trail: Trail): string {
 	const query = trail.location.replace(/·/g, ',');
 	return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+// Locations are stored as "<Plus Code> City, State". Hide the Plus Code in the
+// card and show only the city/state; the Maps link still uses the full string.
+function displayLocation(location: string): string {
+	return location.replace(/^\s*\S*\+\S+,?\s*/, '').trim() || location;
 }
 
 const RELATIVE = new Intl.RelativeTimeFormat('en', { numeric: 'always' });
@@ -47,7 +55,7 @@ const DIVISIONS: [number, Intl.RelativeTimeFormatUnit][] = [
 	[Number.POSITIVE_INFINITY, 'year']
 ];
 
-// "47 hours ago" — matches the relative style the East Rim source already uses.
+// "47 hours ago", matching the relative style the East Rim source already uses.
 function timeAgo(timestamp: number | null): string {
 	if (timestamp == null) return '—';
 	let duration = (timestamp - Date.now()) / 1000;
@@ -58,7 +66,7 @@ function timeAgo(timestamp: number | null): string {
 	return '—';
 }
 
-function TrailCard({ trail }: Props) {
+function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
 	const [expanded, setExpanded] = useState(false);
 	const [conditionOpen, setConditionOpen] = useState(false);
 	const [conditionOverflows, setConditionOverflows] = useState(false);
@@ -109,6 +117,25 @@ function TrailCard({ trail }: Props) {
 						</span>
 					</button>
 				</h2>
+				<button
+					aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+					aria-pressed={isFavorite}
+					className={`trail-card__fav${isFavorite ? ' is-active' : ''}`}
+					onClick={() => onToggleFavorite(trail.id)}
+					type='button'
+				>
+					<svg
+						aria-hidden='true'
+						className='trail-card__star'
+						fill={isFavorite ? 'currentColor' : 'none'}
+						stroke='currentColor'
+						strokeLinejoin='round'
+						strokeWidth='2'
+						viewBox='0 0 24 24'
+					>
+						<path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' />
+					</svg>
+				</button>
 			</div>
 			<div className='trail-card__details' id={detailsId}>
 				<a
@@ -116,9 +143,17 @@ function TrailCard({ trail }: Props) {
 					href={mapsUrl(trail)}
 					rel='noopener noreferrer'
 					target='_blank'
-					title={trail.location}
+					title={`Directions to ${displayLocation(trail.location)}`}
 				>
-					{trail.location}
+					<svg
+						aria-hidden='true'
+						className='trail-card__location-icon'
+						fill='currentColor'
+						viewBox='0 0 24 24'
+					>
+						<path d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z' />
+					</svg>
+					<span className='trail-card__location-text'>{displayLocation(trail.location)}</span>
 				</a>
 				<p
 					onClick={!isMobile && conditionOverflows ? () => setConditionOpen((v) => !v) : undefined}
