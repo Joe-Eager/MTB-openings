@@ -34,8 +34,7 @@ interface Props {
 }
 
 function mapsUrl(trail: Trail): string {
-	const query = trail.location.replace(/·/g, ',');
-	return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+	return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(trail.location)}`;
 }
 
 // Locations are stored as "<Plus Code> City, State". Hide the Plus Code in the
@@ -57,13 +56,13 @@ const DIVISIONS: [number, Intl.RelativeTimeFormatUnit][] = [
 
 // "47 hours ago", matching the relative style the East Rim source already uses.
 function timeAgo(timestamp: number | null): string {
-	if (timestamp == null) return '—';
+	if (timestamp == null) return '-';
 	let duration = (timestamp - Date.now()) / 1000;
 	for (const [amount, unit] of DIVISIONS) {
 		if (Math.abs(duration) < amount) return RELATIVE.format(Math.round(duration), unit);
 		duration /= amount;
 	}
-	return '—';
+	return '-';
 }
 
 function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
@@ -108,12 +107,14 @@ function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
 						onClick={() => setExpanded((v) => !v)}
 						type='button'
 					>
-						<span className={`trail-card__badge trail-card__badge--${trail.stale ? 'stale' : trail.status}`}>
+						<span
+							className={`trail-card__badge trail-card__badge--${trail.stale ? 'stale' : trail.status}`}
+						>
 							{STATUS_LABEL[trail.status]}
 						</span>
 						<span className='trail-card__title'>{displayName}</span>
 						<span aria-hidden='true' className='trail-card__chevron'>
-							›
+							{'>'}
 						</span>
 					</button>
 				</h2>
@@ -189,7 +190,15 @@ function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
 								rel='noopener noreferrer'
 								target='_blank'
 							>
-								{link.name} ↗
+								{link.name}
+								<svg
+									aria-hidden='true'
+									className='trail-card__source-icon'
+									fill='currentColor'
+									viewBox='0 0 24 24'
+								>
+									<path d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z' />
+								</svg>
 							</a>
 						))}
 					</div>

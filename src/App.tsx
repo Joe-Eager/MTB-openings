@@ -72,9 +72,7 @@ function App() {
 	const [theme, setTheme] = useState<Theme>(getInitialTheme);
 	const [sort, setSort] = useState<SortKey>(getInitialSort);
 	const [favorites, setFavorites] = useState<Set<string>>(getInitialFavorites);
-	const [favoritesFirst, setFavoritesFirst] = useState(
-		() => localStorage.getItem('favoritesFirst') === 'true'
-	);
+	const [favoritesFirst, setFavoritesFirst] = useState(() => localStorage.getItem('favoritesFirst') === 'true');
 
 	useEffect(() => {
 		document.documentElement.dataset.theme = theme;
@@ -131,54 +129,59 @@ function App() {
 
 	return (
 		<>
-			<header className="site-header">
+			<header className='site-header'>
 				<button
 					aria-checked={theme === 'dracula'}
-					aria-label="Dark theme"
-					className="theme-toggle"
+					aria-label='Dark theme'
+					className='theme-toggle'
 					onClick={() => setTheme((t) => (t === 'dracula' ? 'alucard' : 'dracula'))}
-					role="switch"
-					type="button"
+					role='switch'
+					type='button'
 				>
-					<span className="theme-toggle__track">
-						<span className="theme-toggle__knob">
+					<span className='theme-toggle__track'>
+						<span className='theme-toggle__knob'>
 							{theme === 'dracula' ? (
-								<svg aria-hidden="true" className="theme-toggle__icon" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+								<svg
+									aria-hidden='true'
+									className='theme-toggle__icon'
+									fill='currentColor'
+									viewBox='0 0 24 24'
+								>
+									<path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
 								</svg>
 							) : (
 								<svg
-									aria-hidden="true"
-									className="theme-toggle__icon"
-									fill="none"
-									stroke="currentColor"
-									strokeLinecap="round"
-									strokeWidth="2"
-									viewBox="0 0 24 24"
+									aria-hidden='true'
+									className='theme-toggle__icon'
+									fill='none'
+									stroke='currentColor'
+									strokeLinecap='round'
+									strokeWidth='2'
+									viewBox='0 0 24 24'
 								>
-									<circle cx="12" cy="12" r="4" />
-									<path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+									<circle cx='12' cy='12' r='4' />
+									<path d='M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' />
 								</svg>
 							)}
 						</span>
 					</span>
 				</button>
 				<h1>CLE MTB Trails</h1>
-				<p className="site-header__subtitle">Trail conditions · Cleveland Metroparks</p>
+				<p className='site-header__subtitle'>Trail conditions - Cleveland Metroparks</p>
 				{!loading && !error && (
 					<>
-						<div className="site-header__summary">
-							<span className="summary-chip summary-chip--open">{openCount} open</span>
+						<div className='site-header__summary'>
+							<span className='summary-chip summary-chip--open'>{openCount} open</span>
 							{cautionCount > 0 && (
-								<span className="summary-chip summary-chip--caution">{cautionCount} caution</span>
+								<span className='summary-chip summary-chip--caution'>{cautionCount} caution</span>
 							)}
-							<span className="summary-chip summary-chip--closed">{closedCount} closed</span>
+							<span className='summary-chip summary-chip--closed'>{closedCount} closed</span>
 						</div>
-						<div className="header-controls">
-							<label className="sort-control">
-								<span className="sort-control__label">Sort by</span>
+						<div className='header-controls'>
+							<label className='sort-control'>
+								<span className='sort-control__label'>Sort by</span>
 								<select
-									className="sort-control__select"
+									className='sort-control__select'
 									onChange={(e) => setSort(e.target.value as SortKey)}
 									value={sort}
 								>
@@ -191,24 +194,24 @@ function App() {
 							</label>
 							<button
 								aria-checked={favoritesFirst}
-								aria-label="Pin favorites to top"
-								className="fav-toggle"
+								aria-label='Pin favorites to top'
+								className='fav-toggle'
 								onClick={() => setFavoritesFirst((v) => !v)}
-								role="switch"
-								type="button"
+								role='switch'
+								type='button'
 							>
-								<span className="fav-toggle__track">
-									<span className="fav-toggle__knob">
+								<span className='fav-toggle__track'>
+									<span className='fav-toggle__knob'>
 										<svg
-											aria-hidden="true"
-											className="fav-toggle__icon"
+											aria-hidden='true'
+											className='fav-toggle__icon'
 											fill={favoritesFirst ? 'currentColor' : 'none'}
-											stroke="currentColor"
-											strokeLinejoin="round"
-											strokeWidth="2"
-											viewBox="0 0 24 24"
+											stroke='currentColor'
+											strokeLinejoin='round'
+											strokeWidth='2'
+											viewBox='0 0 24 24'
 										>
-											<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+											<path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' />
 										</svg>
 									</span>
 								</span>
@@ -217,10 +220,10 @@ function App() {
 					</>
 				)}
 			</header>
-			<main className="trail-grid">
-				{loading && <p className="status-msg">Loading trail conditions…</p>}
+			<main className='trail-grid'>
+				{loading && <p className='status-msg'>Loading trail conditions...</p>}
 				{error && (
-					<p className="status-msg status-msg--error">
+					<p className='status-msg status-msg--error'>
 						Could not load trail conditions. Check the server is running.
 					</p>
 				)}
@@ -235,8 +238,16 @@ function App() {
 						/>
 					))}
 			</main>
-			<footer className="site-footer">
-				<p>Data from Cleveland Metroparks · Cached for 5 minutes · Built {new Date(__BUILD_TIME__).toLocaleString('en-US', { day: 'numeric', hour: 'numeric', minute: '2-digit', month: 'short' })}</p>
+			<footer className='site-footer'>
+				<p>
+					Data from Cleveland Metroparks - Cached for 5 minutes - Built{' '}
+					{new Date(__BUILD_TIME__).toLocaleString('en-US', {
+						day: 'numeric',
+						hour: 'numeric',
+						minute: '2-digit',
+						month: 'short'
+					})}
+				</p>
 			</footer>
 		</>
 	);

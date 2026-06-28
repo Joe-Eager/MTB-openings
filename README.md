@@ -19,6 +19,7 @@ Live trail status page for mountain bike trails around Cleveland, Ohio. Shows op
 Never used a "console" or "terminal"? No problem. Follow these steps exactly. You'll run the page on one computer that stays on (call it the **host**: a desktop, an old laptop, whatever), and then view it from your phone using a free app called **Tailscale**.
 
 > **What's a terminal?** It's a window where you type commands instead of clicking buttons.
+>
 > - **Windows:** click the Start menu, type `PowerShell`, and click "Windows PowerShell".
 > - **Mac:** press `Cmd + Space`, type `Terminal`, and press Enter.
 >
@@ -29,28 +30,39 @@ Never used a "console" or "terminal"? No problem. Follow these steps exactly. Yo
 1. **Install Node.js.** Go to [nodejs.org](https://nodejs.org/), download the big green "LTS" button, and run the installer. Click Next/Agree the whole way through; the defaults are fine. This is the engine that runs the page.
 
 2. **Turn on Yarn.** Open a terminal (see the box above) and type this, then press Enter:
-   ```bash
-   corepack enable
-   ```
-   If it says nothing happened, that's normal; it worked. **If instead it says something like `corepack: command not found` or `not recognized`,** type this first, then run `corepack enable` again:
-   ```bash
-   npm install -g corepack
-   ```
-   (On Mac, if that gives a "permission denied" error, put `sudo ` in front: `sudo npm install -g corepack`, and enter your password.)
 
-3. **Download this project.** Go to [the project page on GitHub](https://github.com/Joe-Eager/MTB-openings), click the green **Code** button, then **Download ZIP**. Unzip it somewhere easy like your Desktop. You'll get a folder named `MTB-openings`.
+    ```bash
+    corepack enable
+    ```
+
+    If it says nothing happened, that's normal; it worked. **If instead it says something like `corepack: command not found` or `not recognized`,** type this first, then run `corepack enable` again:
+
+    ```bash
+    npm install -g corepack
+    ```
+
+    (On Mac, if that gives a "permission denied" error, put `sudo ` in front: `sudo npm install -g corepack`, and enter your password.)
+
+3. **Download this project with Git.** Git is a small free tool that copies the project to your computer and lets you update it later with a single command (see [Updating](#updating-to-the-latest-version) below).
+    - Install it from [git-scm.com/downloads](https://git-scm.com/downloads) and click through the defaults. (On a Mac you can instead just type `git --version` in the terminal and accept the popup that offers to install it.)
+    - Then copy this line into your terminal and press Enter:
+        ```bash
+        git clone https://github.com/Joe-Eager/MTB-openings.git
+        ```
+        This creates a folder named `MTB-openings` inside whatever folder your terminal is currently in (your home folder, by default).
 
 4. **Point the terminal at that folder.** Type `cd ` (with a space after it), then **drag the `MTB-openings` folder onto the terminal window**, which pastes the location for you. Press Enter. Example of what it looks like:
-   ```bash
-   cd Desktop/MTB-openings
-   ```
+
+    ```bash
+    cd Desktop/MTB-openings
+    ```
 
 5. **Install and start it.** Type these two lines, one at a time, pressing Enter after each. The first one downloads the pieces it needs (takes a minute). The second builds and starts the page.
-   ```bash
-   yarn install
-   yarn deploy:local
-   ```
-   When it finishes you'll see a line mentioning `http://localhost:3000`. **Leave this window open**; closing it turns the page off. To check it works, open a web browser on this same computer and go to `http://localhost:3000`.
+    ```bash
+    yarn install
+    yarn deploy:local
+    ```
+    When it finishes you'll see a line mentioning `http://localhost:3000`. **Leave this window open**; closing it turns the page off. To check it works, open a web browser on this same computer and go to `http://localhost:3000`.
 
 ### Part 2: Install Tailscale (this is what lets your phone connect)
 
@@ -63,25 +75,43 @@ Tailscale is a free app that privately links your devices so your phone can reac
 ### Part 3: Open the page on your phone
 
 8. On your phone's web browser, type this in the address bar (replace `mtb-host` with the name from step 6):
-   ```
-   http://mtb-host:3000
-   ```
-   The trail page should load. It'll work from anywhere as long as the host computer is on and connected to the internet.
+    ```
+    http://mtb-host:3000
+    ```
+    The trail page should load. It'll work from anywhere as long as the host computer is on and connected to the internet.
 
 > **If the name doesn't work:** on the host, type `tailscale ip -4` in the terminal. It prints an address like `100.84.12.5`. On your phone, use that instead, e.g. `http://100.84.12.5:3000`.
 
 ### Keeping it on after you close the window or restart
 
 The simple version above stops when you close the terminal or restart the computer. To make it start back up automatically, the easiest tool is **PM2**. Type these (one at a time) in the project folder:
+
 ```bash
 npm install -g pm2
 pm2 start server.mjs --name mtb-trails
 pm2 save
 pm2 startup
 ```
+
 PM2 will print one extra line for you to copy, paste, and run; that's what makes it survive restarts. After that you can close the terminal and the page keeps running.
 
 (On a Raspberry Pi or other Linux server, a systemd service does the same job; see [Deploying to a server](#deploying-to-a-server) below.)
+
+### Updating to the latest version
+
+When a new version is released (new trails, fixes, schedule changes), updating is one command. In the terminal window that's running the page, press **Ctrl + C** to stop it, then type:
+
+```bash
+yarn update
+```
+
+It checks GitHub and tells you whether you're already up to date. If there's a new version, it downloads it, rebuilds the page, and starts it back up for you automatically. (This only works because you got the project with `git clone` in step 3; a ZIP download can't check for updates.)
+
+> **Running it in the background with PM2?** Just run `yarn update` the same way. It downloads and builds the new version, notices PM2 is already serving the page (so it won't start a second copy), and tells you to finish with:
+>
+> ```bash
+> pm2 restart mtb-trails
+> ```
 
 ## For developers
 
@@ -124,8 +154,10 @@ All sources live in `server.mjs`:
 - **Bluesky accounts**: add an entry to `BSKY_ACCOUNTS`
 - **TrailForks regions** (community-reported conditions): add an entry to `TRAILFORKS_REGIONS`
 - **CVNP East Rim**: configured via the `CVNP_EAST_RIM` entry
-- **CAMBA Trailmate**: the home page lists every CAMBA-tracked trail. To let it refresh a trail you already track, map the trail's CAMBA `p6_id` (from its `trail?p6_id=…` URL) to your app trail id in `CAMBA_TRAIL_IDS`. To surface a CAMBA-only trail as its own card, add an entry (name, location, links) to `CAMBA_NEW_TRAILS` keyed by `p6_id`
-- **Static link cards** (trails with no live data): add an entry to `STATIC_TRAILS`
+- **CAMBA Trailmate**: the home page lists every CAMBA-tracked trail. To let it refresh a trail you already track, map the trail's CAMBA `p6_id` (from its `trail?p6_id=...` URL) to your app trail id in `CAMBA_TRAIL_IDS`. To surface a CAMBA-only trail as its own card, add an entry (name, location, links) to `CAMBA_NEW_TRAILS` keyed by `p6_id`
+- **Ray's Indoor**: runs on a fixed published schedule rather than live conditions; edit `RAYS_SCHEDULE` in `server.mjs` when a new season is posted
+
+Every trail in those registries automatically gets a greyed-out "no live data" fallback card when its source is unreachable, so a failed fetch never drops a trail from the page.
 
 ## License
 

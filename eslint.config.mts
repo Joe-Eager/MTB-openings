@@ -125,7 +125,15 @@ export default [
 		}
 	},
 	{
-		ignores: ['dist/**', '.eslintrc.{js,cjs}', 'vite.config.*', '*.config.*', 'src/i18n/*.ts', 'server.mjs']
+		ignores: [
+			'dist/**',
+			'.eslintrc.{js,cjs}',
+			'vite.config.*',
+			'*.config.*',
+			'src/i18n/*.ts',
+			'server.mjs',
+			'scripts/**'
+		]
 	},
 	prettierConfig
 ] as Linter.Config[];

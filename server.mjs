@@ -109,7 +109,7 @@ const BSKY_ACCOUNTS = [
 		handle: 'smpmountainbike.bsky.social',
 		id: 'hampton-hills',
 		links: [
-			{ name: 'Bluesky · @smpmountainbike', url: 'https://bsky.app/profile/smpmountainbike.bsky.social' },
+			{ name: 'Bluesky - @smpmountainbike', url: 'https://bsky.app/profile/smpmountainbike.bsky.social' },
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/hampton-hills-15249/' }
 		],
 		location: '5C2X+FP Akron, Ohio',
@@ -121,7 +121,7 @@ const CVNP_EAST_RIM = {
 	id: 'cvnp-east-rim',
 	links: [
 		{ name: 'CAMBA Trailmate', url: CVNP_EAST_RIM_URL },
-		{ name: 'X · @cvnpmtb', url: 'https://x.com/cvnpmtb' },
+		{ name: 'X - @cvnpmtb', url: 'https://x.com/cvnpmtb' },
 		{ name: 'NPS Conditions', url: 'https://www.nps.gov/cuva/planyourvisit/conditions.htm' },
 		{ name: 'TrailForks', url: 'https://www.trailforks.com/region/east-rim-trails/' }
 	],
@@ -135,63 +135,12 @@ const TRAILFORKS_REGIONS = [
 		id: 'austin-badger',
 		links: [
 			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/austin-badger-park-17345/' },
-			{ name: 'Facebook · Wick’s Outlaw Trails', url: 'https://www.facebook.com/WicksOutlawTrails/' },
-			{ name: 'Instagram · @wicks_outlaw_trails', url: 'https://www.instagram.com/wicks_outlaw_trails/' }
+			{ name: "Facebook - Wick's Outlaw Trails", url: 'https://www.facebook.com/WicksOutlawTrails/' },
+			{ name: 'Instagram - @wicks_outlaw_trails', url: 'https://www.instagram.com/wicks_outlaw_trails/' }
 		],
 		location: '459P+6R Medina, Ohio',
 		name: 'Austin Badger Park',
 		url: 'https://www.trailforks.com/region/austin-badger-park-17345/'
-	}
-];
-
-const STATIC_TRAILS = [
-	{
-		condition: 'No live data. Check the links below for current conditions.',
-		id: 'chapin-forest',
-		links: [
-			{ name: 'Lake Metroparks', url: 'https://lakemetroparks.com/parks-trails/chapin-forest-reservation/' },
-			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/chapin-forest-reservation-50222/' }
-		],
-		location: 'HJQJ+R6 Kirtland, Ohio',
-		name: 'Chapin Forest',
-		status: 'stale',
-		updatedAt: '—'
-	},
-	{
-		condition: 'No live data. Check the links below for current conditions.',
-		id: 'west-branch',
-		links: [
-			{
-				name: 'Ohio DNR',
-				url: 'https://ohiodnr.gov/go-and-do/plan-a-visit/find-a-property/west-branch-state-park'
-			},
-			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/west-branch-state-park/' }
-		],
-		location: '4VJ5+V4 Ravenna, Ohio',
-		name: 'West Branch',
-		status: 'stale',
-		updatedAt: '—'
-	},
-	{
-		condition: 'No live data. Check the links below for current conditions.',
-		id: 'vulturesknob',
-		links: [{ name: 'TrailForks', url: 'https://www.trailforks.com/region/vultures-knob/' }],
-		location: 'V229+9R Wooster, Ohio',
-		name: "Vulture's Knob",
-		status: 'stale',
-		updatedAt: '—'
-	},
-	{
-		condition: 'No live data. Check the links below for current conditions.',
-		id: 'mohican',
-		links: [
-			{ name: 'Ohio DNR', url: 'https://ohiodnr.gov/go-and-do/plan-a-visit/find-a-property/mohican-state-park' },
-			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/mohican-state-park/' }
-		],
-		location: 'JP5R+6Q Loudonville, Ohio',
-		name: 'Mohican',
-		status: 'stale',
-		updatedAt: '—'
 	}
 ];
 
@@ -214,16 +163,32 @@ const CAMBA_TRAIL_IDS = {
 	8: 'royalview-yellow',
 	103: 'cvnp-east-rim',
 	105: 'austin-badger',
-	106: 'mohican',
-	107: 'vulturesknob',
-	108: 'hampton-hills',
-	115: 'west-branch'
+	108: 'hampton-hills'
 };
 
 // Trails that only appear on the CAMBA home page (no other live source). Status,
 // condition, and timestamp come from CAMBA at runtime; the metadata below is the
 // rest of the card. Locations are Maps-searchable but should be verified.
 const CAMBA_NEW_TRAILS = {
+	106: {
+		id: 'mohican',
+		links: [
+			{ name: 'CAMBA Trailmate', url: cambaTrailUrl(106) },
+			{ name: 'Ohio DNR', url: 'https://ohiodnr.gov/go-and-do/plan-a-visit/find-a-property/mohican-state-park' },
+			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/mohican-state-park/' }
+		],
+		location: 'JP5R+6Q Loudonville, Ohio',
+		name: 'Mohican'
+	},
+	107: {
+		id: 'vulturesknob',
+		links: [
+			{ name: 'CAMBA Trailmate', url: cambaTrailUrl(107) },
+			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/vultures-knob/' }
+		],
+		location: 'V229+9R Wooster, Ohio',
+		name: "Vulture's Knob"
+	},
 	109: {
 		id: 'camp-tuscazoar',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(109) }],
@@ -236,15 +201,9 @@ const CAMBA_NEW_TRAILS = {
 		location: '4QQP+98 Wellington, Ohio',
 		name: 'Thorn (FTP)'
 	},
-	111: {
-		id: 'rays-indoor',
-		links: [
-			{ name: 'CAMBA Trailmate', url: cambaTrailUrl(111) },
-			{ name: "Ray's homepage", url: 'https://www.raysmtb.com/about/prices-hours-and-directions-pg141.htm' }
-		],
-		location: 'F63X+V3 Cleveland, Ohio',
-		name: "Ray's Indoor Mountain Bike Park"
-	},
+	// 111 (Ray's Indoor) is intentionally NOT here: it runs on a fixed published
+	// schedule, not condition-based open/close, so we compute its card from
+	// RAYS_SCHEDULE below instead of taking CAMBA's guess.
 	112: {
 		id: 'lake-milton',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(112) }],
@@ -263,6 +222,19 @@ const CAMBA_NEW_TRAILS = {
 		location: '5535+9W Medina, Ohio',
 		name: 'Reagan Park'
 	},
+	115: {
+		id: 'west-branch',
+		links: [
+			{ name: 'CAMBA Trailmate', url: cambaTrailUrl(115) },
+			{
+				name: 'Ohio DNR',
+				url: 'https://ohiodnr.gov/go-and-do/plan-a-visit/find-a-property/west-branch-state-park'
+			},
+			{ name: 'TrailForks', url: 'https://www.trailforks.com/region/west-branch-state-park/' }
+		],
+		location: '4VJ5+V4 Ravenna, Ohio',
+		name: 'West Branch'
+	},
 	116: {
 		id: 'quail-hollow',
 		links: [{ name: 'CAMBA Trailmate', url: cambaTrailUrl(116) }],
@@ -276,6 +248,177 @@ const CAMBA_NEW_TRAILS = {
 		name: 'Big Creek'
 	}
 };
+
+// --- Ray's Indoor Mountain Bike Park --------------------------------------
+// Ray's is an indoor park that runs on a fixed, published seasonal schedule
+// rather than condition-based open/close, so there's nothing live to scrape.
+// We transcribe the schedule from Ray's season-calendar graphics here and
+// COMPUTE the card (open/closed + today's hours) from the current Eastern time.
+// When Ray's publishes a new season, edit RAYS_SCHEDULE; that's the only change
+// needed. All times are interpreted in America/New_York. Dates are "YYYY-MM-DD",
+// which sort lexicographically the same as chronologically.
+const RAYS_META = {
+	id: 'rays-indoor',
+	links: [
+		{
+			name: "Ray's prices, hours, and directions",
+			url: 'https://www.raysmtb.com/about/prices-hours-and-directions-pg141.htm'
+		}
+	],
+	location: 'F63X+V3 Cleveland, Ohio',
+	name: "Ray's Indoor Mountain Bike Park"
+};
+
+const RAYS_SCHEDULE = {
+	// Single-day overrides win over ranges. `{ closed: true }` or open hours.
+	exceptions: {
+		'2026-11-26': { closed: true, label: 'Thanksgiving' },
+		'2026-11-27': { open: '9:00 AM', close: '10:00 PM', label: 'Black Friday' },
+		'2026-12-24': { open: '9:00 AM', close: '5:00 PM', label: 'Christmas Eve' },
+		'2026-12-25': { closed: true, label: 'Christmas Day' },
+		'2027-01-18': { open: '9:00 AM', close: '10:00 PM', label: 'MLK Day' },
+		'2027-02-12': {
+			open: '4:00 PM',
+			close: '10:00 PM',
+			label: "Women's Weekend",
+			note: 'Private event 8:00 AM-4:00 PM; open to the public after 4:00 PM.'
+		},
+		'2027-02-15': { open: '9:00 AM', close: '10:00 PM', label: 'Presidents Day' },
+		'2027-03-28': { closed: true, label: 'Easter' }
+	},
+	// Date ranges, checked in order; first match wins (so nested/holiday ranges
+	// come before the broad season they sit inside). `daily` applies every day;
+	// `byDay` keys are 0=Sun..6=Sat and any missing weekday is closed.
+	ranges: [
+		{
+			from: '2026-12-21',
+			to: '2027-01-01',
+			label: 'Extended holiday hours',
+			daily: { open: '9:00 AM', close: '10:00 PM' }
+		},
+		{
+			from: '2026-10-02',
+			to: '2027-05-02',
+			label: 'Regular season',
+			byDay: {
+				0: { open: '12:00 PM', close: '10:00 PM' },
+				1: { open: '9:00 AM', close: '10:00 PM' },
+				2: { open: '9:00 AM', close: '10:00 PM' },
+				3: { open: '9:00 AM', close: '10:00 PM' },
+				4: { open: '9:00 AM', close: '10:00 PM' },
+				5: { open: '9:00 AM', close: '10:00 PM' },
+				6: { open: '12:00 PM', close: '10:00 PM' }
+			}
+		},
+		{ from: '2026-09-01', to: '2026-10-01', label: 'Fall hours', daily: { open: '2:00 PM', close: '8:00 PM' } },
+		{
+			from: '2026-05-10',
+			to: '2026-09-06',
+			label: 'Summer Sessions',
+			byDay: { 0: { open: '2:00 PM', close: '8:00 PM' } }
+		}
+	]
+};
+
+const WEEKDAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+const WEEKDAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// The current Eastern wall-clock date/time, independent of the server's own zone.
+function easternParts(date) {
+	const parts = Object.fromEntries(
+		new Intl.DateTimeFormat('en-US', {
+			timeZone: 'America/New_York',
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: false,
+			weekday: 'short'
+		})
+			.formatToParts(date)
+			.map((p) => [p.type, p.value])
+	);
+	return {
+		ymd: `${parts.year}-${parts.month}-${parts.day}`,
+		minutes: (+parts.hour % 24) * 60 + +parts.minute,
+		weekday: WEEKDAY_INDEX[parts.weekday]
+	};
+}
+
+function timeToMinutes(t) {
+	const m = t.match(/(\d+):(\d+)\s*(AM|PM)/i);
+	return ((+m[1] % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + +m[2];
+}
+
+// Resolve a single day to { state: 'open'|'closed'|'unknown', open?, close?, label?, note? }.
+// 'unknown' means no published rule covers the date (e.g. a future season).
+function raysDay(ymd, weekday) {
+	const exc = RAYS_SCHEDULE.exceptions[ymd];
+	if (exc) return exc.closed ? { state: 'closed', label: exc.label } : { state: 'open', ...exc };
+	for (const r of RAYS_SCHEDULE.ranges) {
+		if (ymd < r.from || ymd > r.to) continue;
+		const h = r.daily ?? r.byDay?.[weekday];
+		return h
+			? { state: 'open', open: h.open, close: h.close, label: r.label }
+			: { state: 'closed', label: r.label };
+	}
+	return { state: 'unknown' };
+}
+
+// Look ahead for the next day Ray's is open, for the "Next open ..." hint.
+function raysNextOpen(now) {
+	for (let i = 1; i <= 28; i++) {
+		const { ymd, weekday } = easternParts(new Date(now.getTime() + i * 86400000));
+		const day = raysDay(ymd, weekday);
+		if (day.state === 'open') {
+			const when = i === 1 ? 'tomorrow' : WEEKDAY_NAMES[weekday];
+			return ` Next open ${when} ${day.open}-${day.close}.`;
+		}
+	}
+	return '';
+}
+
+// Build Ray's card from the schedule. timestamp is null so the card never goes
+// "stale" and the footer's relative-time stamp (meaningless here) stays hidden.
+function buildRaysTrail() {
+	const now = new Date();
+	const { ymd, minutes, weekday } = easternParts(now);
+	const today = raysDay(ymd, weekday);
+	const tag = today.label ? ` - ${today.label}` : '';
+	let status;
+	let condition;
+
+	if (today.state === 'unknown') {
+		status = 'stale';
+		condition =
+			'Indoor park on a fixed seasonal schedule. The current season is not yet published here. See the links below for hours.';
+	} else if (today.state === 'closed') {
+		status = 'closed';
+		condition = `Closed today${today.label ? ` (${today.label})` : ''}.${raysNextOpen(now)}`;
+	} else {
+		const open = timeToMinutes(today.open);
+		const close = timeToMinutes(today.close);
+		if (minutes < open) {
+			status = 'caution';
+			condition = `Opens today at ${today.open}. Today's hours ${today.open}-${today.close}${tag}.`;
+		} else if (minutes >= close) {
+			status = 'closed';
+			condition = `Closed for the day (today was ${today.open}-${today.close}${tag}).${raysNextOpen(now)}`;
+		} else {
+			status = 'open';
+			condition = `Open now until ${today.close}. Today's hours ${today.open}-${today.close}${tag}.`;
+		}
+		if (today.note) condition += ` ${today.note}`;
+	}
+
+	// Stamp with the start of today (Eastern) so the card reads as refreshed each
+	// day and sorts among recently-updated trails instead of sinking to the bottom
+	// on a null timestamp. Off-season (unknown) has no daily update and should
+	// stay at the end, so leave it unstamped.
+	const timestamp = today.state === 'unknown' ? null : now.getTime() - minutes * 60000;
+	return { ...RAYS_META, condition, status, timestamp, updatedAt: 'Updated daily from the published schedule' };
+}
 
 function formatUpdatedAt(raw) {
 	const match = raw.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d+:\d+) (AM|PM)/);
@@ -410,7 +553,7 @@ async function scrapeCvnpEastRim() {
 		name: CVNP_EAST_RIM.name,
 		status,
 		timestamp: ago ? parseRelativeOrDate(ago[1].trim()) : null,
-		updatedAt: ago ? ago[1].trim() : '—'
+		updatedAt: ago ? ago[1].trim() : '-'
 	};
 }
 
@@ -449,7 +592,7 @@ async function scrapeCambaHome() {
 			p6Id,
 			status: cambaHomeStatus($el.attr('class') ?? '', `${link.text()} ${condition}`),
 			timestamp: when ? parseRelativeOrDate(when) : null,
-			updatedAt: when || '—'
+			updatedAt: when || '-'
 		});
 	});
 
@@ -492,7 +635,7 @@ async function fetchTrailforksRegions() {
 					name: region.name,
 					status: trailforksStatus(icon.attr('class') ?? ''),
 					timestamp: asOf ? parseRelativeOrDate(asOf) : null,
-					updatedAt: asOf || '—'
+					updatedAt: asOf || '-'
 				};
 			} catch {
 				return {
@@ -502,7 +645,7 @@ async function fetchTrailforksRegions() {
 					location: region.location,
 					name: region.name,
 					status: 'stale',
-					updatedAt: '—'
+					updatedAt: '-'
 				};
 			}
 		})
@@ -542,6 +685,35 @@ async function fetchBskyTrails() {
 	return results.filter((r) => r.status === 'fulfilled').map((r) => r.value);
 }
 
+// Every trail we know how to render, with the metadata used both for its live
+// card and for a greyed-out fallback when its source is unreachable. Pooling all
+// metadata in one registry lets a failed fetch grey a card out instead of
+// dropping it from the page entirely.
+const KNOWN_TRAILS = [
+	...Object.entries(TRAIL_META).map(([name, m]) => ({ id: m.id, links: m.links, location: m.location, name })),
+	...BSKY_ACCOUNTS.map((a) => ({ id: a.id, links: a.links, location: a.location, name: a.name })),
+	{ id: CVNP_EAST_RIM.id, links: CVNP_EAST_RIM.links, location: CVNP_EAST_RIM.location, name: CVNP_EAST_RIM.name },
+	...TRAILFORKS_REGIONS.map((r) => ({ id: r.id, links: r.links, location: r.location, name: r.name })),
+	...Object.values(CAMBA_NEW_TRAILS).map((m) => ({ id: m.id, links: m.links, location: m.location, name: m.name }))
+];
+
+// Expand multi-trailhead trails into one card per lot, sharing status/condition/
+// timestamp but with each lot's own name and location.
+const splitTrailheads = (trail) =>
+	(TRAILHEAD_SPLITS[trail.id] ?? [trail]).map((head) =>
+		head === trail ? trail : { ...trail, id: head.id, location: head.location, name: head.name }
+	);
+
+// One stale placeholder per known card (split lots included), used for any trail
+// that produced no live data this cycle.
+const FALLBACK_CARDS = KNOWN_TRAILS.flatMap(splitTrailheads).map((trail) => ({
+	...trail,
+	condition: 'No live data. Check the links below for current conditions.',
+	status: 'stale',
+	timestamp: null,
+	updatedAt: '-'
+}));
+
 async function getAllTrails() {
 	if (cachedTrails && Date.now() < cacheExpiry) {
 		return cachedTrails;
@@ -566,12 +738,13 @@ async function getAllTrails() {
 					...CVNP_EAST_RIM,
 					condition: 'No live data. Check the links below for current conditions.',
 					status: 'stale',
-					updatedAt: '—'
+					updatedAt: '-'
 				};
 
-	if (metroparks.length === 0 && bsky.length === 0 && cambaHome.length === 0) {
-		if (cachedTrails) return cachedTrails;
-		throw new Error('All sources failed');
+	// If every live source failed, serve the last good cache rather than a page of
+	// all-stale fallbacks. With no cache we fall through and render the fallbacks.
+	if (metroparks.length === 0 && bsky.length === 0 && cambaHome.length === 0 && cachedTrails) {
+		return cachedTrails;
 	}
 
 	// Index CAMBA home entries: matched ones refresh a trail we already track,
@@ -625,17 +798,16 @@ async function getAllTrails() {
 		if (!trail.stale) return STATUS_ORDER[trail.status];
 		return trail.status === 'stale' ? STATUS_ORDER.stale + 1 : STATUS_ORDER.stale;
 	};
-	// Expand multi-trailhead trails into one card per lot, sharing the scraped
-	// status/condition/timestamp but with each lot's own name and location.
-	const splitTrailheads = (trail) =>
-		(TRAILHEAD_SPLITS[trail.id] ?? [trail]).map((head) =>
-			head === trail ? trail : { ...trail, id: head.id, location: head.location, name: head.name }
-		);
-
-	const trails = [...metroparks, ...bsky, cvnp, ...trailforks, ...STATIC_TRAILS]
+	const live = [...metroparks, ...bsky, cvnp, ...trailforks]
 		.map(refreshWithCamba)
-		.concat(cambaNew)
-		.flatMap(splitTrailheads)
+		.concat(cambaNew, buildRaysTrail())
+		.flatMap(splitTrailheads);
+
+	// Add a stale fallback card for every known trail that produced no live data,
+	// so a source outage greys a card out instead of removing it from the page.
+	const liveIds = new Set(live.map((trail) => trail.id));
+	const trails = live
+		.concat(FALLBACK_CARDS.filter((trail) => !liveIds.has(trail.id)))
 		.map((trail) => {
 			const timestamp = trail.timestamp ?? null;
 			const stale = trail.status === 'stale' || (timestamp != null && now - timestamp > STALE_AFTER);
@@ -666,6 +838,19 @@ app.use((_req, res) => {
 	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(PORT, () => {
-	console.log(`CLE MTB → http://localhost:${PORT}`);
+const server = app.listen(PORT, () => {
+	console.log(`CLE MTB -> http://localhost:${PORT}`);
+});
+
+// Don't crash with a raw stack trace when the page is already running elsewhere
+// (another window, PM2, a service). Explain it and exit cleanly.
+server.on('error', (err) => {
+	if (err.code === 'EADDRINUSE') {
+		console.error(
+			`\n⚠️  Port ${PORT} is already in use. The page is probably already running elsewhere.\n` +
+				`   Stop that copy first, or start this one on a different port: PORT=3001 yarn start\n`
+		);
+		process.exit(1);
+	}
+	throw err;
 });

@@ -38,7 +38,8 @@
 		"dev": "concurrently \"node server.mjs\" \"vite\"",
 		"lint": "eslint .",
 		"preview": "vite preview",
-		"start": "node server.mjs"
+		"start": "node server.mjs",
+		"update": "node scripts/update.mjs"
 	},
 	"type": "module",
 	"version": "0.0.0"

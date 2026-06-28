@@ -49,7 +49,6 @@
 	width: 28px;
 }
 
-
 .site-header__subtitle {
 	color: var(--text);
 	font-size: 15px;
@@ -164,7 +163,10 @@
 	opacity: 0.4;
 	position: absolute;
 	top: -3px;
-	transition: transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+	transition:
+		transform 0.2s ease,
+		color 0.2s ease,
+		opacity 0.2s ease;
 	width: 28px;
 }
 
@@ -262,7 +264,10 @@
 	flex-shrink: 0;
 	opacity: 0.4;
 	padding: 4px;
-	transition: color 0.15s, opacity 0.15s, transform 0.15s;
+	transition:
+		color 0.15s,
+		opacity 0.15s,
+		transform 0.15s;
 }
 
 .trail-card__fav:hover {
@@ -439,8 +444,11 @@
 }
 
 .trail-card__source {
+	align-items: center;
 	color: var(--text-h);
+	display: inline-flex;
 	font-size: 12px;
+	gap: 3px;
 	opacity: 0.55;
 	text-decoration: none;
 	transition: opacity 0.15s;
@@ -448,6 +456,12 @@
 	&:hover {
 		opacity: 1;
 	}
+}
+
+.trail-card__source-icon {
+	flex-shrink: 0;
+	height: 11px;
+	width: 11px;
 }
 
 .status-msg {
