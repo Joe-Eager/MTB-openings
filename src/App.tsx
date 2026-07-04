@@ -142,8 +142,8 @@ function App() {
 			<header className='site-header'>
 				<div className='header-toggles'>
 					<button
-						aria-label='Share this site'
-						className='share-button'
+						aria-label='Show QR code and link'
+						className='qr-button'
 						type='button'
 						onClick={() => {
 							setCopied(false);
@@ -152,7 +152,7 @@ function App() {
 					>
 						<svg
 							aria-hidden='true'
-							className='share-button__icon'
+							className='qr-button__icon'
 							fill='none'
 							stroke='currentColor'
 							strokeLinecap='round'
@@ -285,26 +285,26 @@ function App() {
 				<div
 					aria-label='Share this site'
 					aria-modal='true'
-					className='share-modal'
+					className='qr-modal'
 					onClick={() => setShareOpen(false)}
 					role='dialog'
 				>
-					<div className='share-modal__panel' onClick={(e) => e.stopPropagation()}>
+					<div className='qr-modal__panel' onClick={(e) => e.stopPropagation()}>
 						<button
 							aria-label='Close'
-							className='share-modal__close'
+							className='qr-modal__close'
 							onClick={() => setShareOpen(false)}
 							type='button'
 						>
 							&times;
 						</button>
-						<h2 className='share-modal__title'>Share this site</h2>
-						<p className='share-modal__subtitle'>Scan the code or copy the link</p>
-						<img alt={`QR code linking to ${SHARE_URL}`} className='share-modal__qr' src='/share-qr.svg' />
-						<div className='share-modal__link'>
-							<span className='share-modal__url'>{SHARE_URL}</span>
+						<h2 className='qr-modal__title'>Share this site</h2>
+						<p className='qr-modal__subtitle'>Scan the code or copy the link</p>
+						<img alt={`QR code linking to ${SHARE_URL}`} className='qr-modal__qr' src='/site-qr.svg' />
+						<div className='qr-modal__link'>
+							<span className='qr-modal__url'>{SHARE_URL}</span>
 							<button
-								className='share-modal__copy'
+								className='qr-modal__copy'
 								type='button'
 								onClick={() => {
 									navigator.clipboard?.writeText(SHARE_URL).then(

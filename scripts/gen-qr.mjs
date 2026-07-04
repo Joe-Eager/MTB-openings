@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
 const URL = 'https://github.com/Joe-Eager/MTB-openings';
-const OUT = resolve(root, 'public/share-qr.svg');
+const OUT = resolve(root, 'public/site-qr.svg');
 const LOGO = resolve(root, 'public/favicon.png');
 
 const CELL = 10; // px per module

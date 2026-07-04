@@ -55,7 +55,7 @@
 	width: 28px;
 }
 
-.share-button {
+.qr-button {
 	align-items: center;
 	background: none;
 	border: 0;
@@ -69,17 +69,17 @@
 		opacity 0.15s;
 }
 
-.share-button:hover {
+.qr-button:hover {
 	color: var(--accent);
 	opacity: 1;
 }
 
-.share-button__icon {
+.qr-button__icon {
 	height: 22px;
 	width: 22px;
 }
 
-.share-modal {
+.qr-modal {
 	align-items: center;
 	background: rgba(0, 0, 0, 0.6);
 	display: flex;
@@ -90,7 +90,7 @@
 	z-index: 100;
 }
 
-.share-modal__panel {
+.qr-modal__panel {
 	background: var(--card-bg);
 	border: 1px solid var(--border);
 	border-radius: 12px;
@@ -102,7 +102,7 @@
 	width: 100%;
 }
 
-.share-modal__close {
+.qr-modal__close {
 	background: none;
 	border: 0;
 	color: var(--text);
@@ -117,24 +117,24 @@
 	transition: opacity 0.15s;
 }
 
-.share-modal__close:hover {
+.qr-modal__close:hover {
 	opacity: 1;
 }
 
-.share-modal__title {
+.qr-modal__title {
 	color: var(--text-h);
 	font-size: 20px;
 	margin: 0;
 }
 
-.share-modal__subtitle {
+.qr-modal__subtitle {
 	color: var(--text);
 	font-size: 13px;
 	margin: 4px 0 20px;
 	opacity: 0.8;
 }
 
-.share-modal__qr {
+.qr-modal__qr {
 	background: #fff;
 	border-radius: 8px;
 	display: block;
@@ -144,7 +144,7 @@
 	width: 200px;
 }
 
-.share-modal__link {
+.qr-modal__link {
 	align-items: center;
 	background: var(--bg);
 	border: 1px solid var(--border);
@@ -154,7 +154,7 @@
 	padding: 6px 6px 6px 12px;
 }
 
-.share-modal__url {
+.qr-modal__url {
 	color: var(--text);
 	flex: 1;
 	font-size: 12px;
@@ -165,7 +165,7 @@
 	white-space: nowrap;
 }
 
-.share-modal__copy {
+.qr-modal__copy {
 	background: var(--accent);
 	border: 0;
 	border-radius: 6px;
@@ -178,7 +178,7 @@
 	transition: opacity 0.15s;
 }
 
-.share-modal__copy:hover {
+.qr-modal__copy:hover {
 	opacity: 0.85;
 }
 
