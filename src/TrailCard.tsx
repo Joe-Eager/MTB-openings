@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import { useTimeAgo } from './timeAgo';
 import type { Trail } from './trailData';
 
 // Matches the mobile breakpoint in App.css. On mobile the whole card already
@@ -43,28 +44,6 @@ function displayLocation(location: string): string {
 	return location.replace(/^\s*\S*\+\S+,?\s*/, '').trim() || location;
 }
 
-const RELATIVE = new Intl.RelativeTimeFormat('en', { numeric: 'always' });
-const DIVISIONS: [number, Intl.RelativeTimeFormatUnit][] = [
-	[60, 'second'],
-	[60, 'minute'],
-	[24, 'hour'],
-	[7, 'day'],
-	[4.34524, 'week'],
-	[12, 'month'],
-	[Number.POSITIVE_INFINITY, 'year']
-];
-
-// "47 hours ago", matching the relative style the East Rim source already uses.
-function timeAgo(timestamp: number | null): string {
-	if (timestamp == null) return '-';
-	let duration = (timestamp - Date.now()) / 1000;
-	for (const [amount, unit] of DIVISIONS) {
-		if (Math.abs(duration) < amount) return RELATIVE.format(Math.round(duration), unit);
-		duration /= amount;
-	}
-	return '-';
-}
-
 function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
 	const [expanded, setExpanded] = useState(false);
 	const [conditionOpen, setConditionOpen] = useState(false);
@@ -73,6 +52,7 @@ function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
 	const isMobile = useMediaQuery(MOBILE_QUERY);
 	const detailsId = `trail-details-${trail.id}`;
 	const displayName = trail.name.replace('Ohio & Erie Canal', 'OECR');
+	const updatedAgo = useTimeAgo(trail.timestamp);
 
 	// Detect whether the clamped condition overflows so we only show the toggle
 	// when it's needed. Skip while expanded (the text is unclamped then, so it
@@ -178,7 +158,7 @@ function TrailCard({ isFavorite, onToggleFavorite, trail }: Props) {
 				<div className='trail-card__foot'>
 					{trail.timestamp != null && (
 						<span className='trail-card__updated' title={trail.updatedAt}>
-							{timeAgo(trail.timestamp)}
+							{updatedAgo}
 						</span>
 					)}
 					<div className='trail-card__links'>

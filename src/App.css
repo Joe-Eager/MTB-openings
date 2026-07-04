@@ -5,6 +5,15 @@
 	text-align: center;
 }
 
+.header-toggles {
+	align-items: center;
+	display: inline-flex;
+	gap: 4px;
+	position: absolute;
+	right: 16px;
+	top: 16px;
+}
+
 .theme-toggle {
 	align-items: center;
 	background: none;
@@ -12,9 +21,6 @@
 	cursor: pointer;
 	display: inline-flex;
 	padding: 6px;
-	position: absolute;
-	right: 16px;
-	top: 16px;
 }
 
 .theme-toggle__track {
@@ -47,6 +53,133 @@
 .theme-toggle__icon {
 	height: 28px;
 	width: 28px;
+}
+
+.share-button {
+	align-items: center;
+	background: none;
+	border: 0;
+	color: var(--text-h);
+	cursor: pointer;
+	display: inline-flex;
+	opacity: 0.7;
+	padding: 6px;
+	transition:
+		color 0.15s,
+		opacity 0.15s;
+}
+
+.share-button:hover {
+	color: var(--accent);
+	opacity: 1;
+}
+
+.share-button__icon {
+	height: 22px;
+	width: 22px;
+}
+
+.share-modal {
+	align-items: center;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	inset: 0;
+	justify-content: center;
+	padding: 20px;
+	position: fixed;
+	z-index: 100;
+}
+
+.share-modal__panel {
+	background: var(--card-bg);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	box-shadow: var(--shadow-hover);
+	max-width: 320px;
+	padding: 28px 24px 24px;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.share-modal__close {
+	background: none;
+	border: 0;
+	color: var(--text);
+	cursor: pointer;
+	font-size: 24px;
+	line-height: 1;
+	opacity: 0.6;
+	padding: 4px 8px;
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	transition: opacity 0.15s;
+}
+
+.share-modal__close:hover {
+	opacity: 1;
+}
+
+.share-modal__title {
+	color: var(--text-h);
+	font-size: 20px;
+	margin: 0;
+}
+
+.share-modal__subtitle {
+	color: var(--text);
+	font-size: 13px;
+	margin: 4px 0 20px;
+	opacity: 0.8;
+}
+
+.share-modal__qr {
+	background: #fff;
+	border-radius: 8px;
+	display: block;
+	height: auto;
+	margin: 0 auto 20px;
+	padding: 12px;
+	width: 200px;
+}
+
+.share-modal__link {
+	align-items: center;
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 8px;
+	display: flex;
+	gap: 8px;
+	padding: 6px 6px 6px 12px;
+}
+
+.share-modal__url {
+	color: var(--text);
+	flex: 1;
+	font-size: 12px;
+	min-width: 0;
+	overflow: hidden;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.share-modal__copy {
+	background: var(--accent);
+	border: 0;
+	border-radius: 6px;
+	color: var(--bg);
+	cursor: pointer;
+	flex-shrink: 0;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 6px 14px;
+	transition: opacity 0.15s;
+}
+
+.share-modal__copy:hover {
+	opacity: 0.85;
 }
 
 .site-header__subtitle {
@@ -489,11 +622,21 @@
 @media (max-width: 768px) {
 	.site-header {
 		padding: 14px 14px 12px;
+		text-align: left;
+	}
+
+	/* Reserve space on the right so a long title never slides under the toggles. */
+	.site-header h1 {
+		padding-right: 92px;
 	}
 
 	.site-header__subtitle {
 		font-size: 13px;
 		margin-top: 4px;
+	}
+
+	.site-header__summary {
+		justify-content: flex-start;
 	}
 
 	.site-header__summary {

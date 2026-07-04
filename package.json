@@ -9,6 +9,7 @@
 		"@eslint/js": "^10.0.1",
 		"@types/express": "^5",
 		"@types/node": "^24.12.2",
+		"@types/qrcode": "^1",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react": "^6.0.1",
@@ -24,6 +25,7 @@
 		"globals": "^17.5.0",
 		"jiti": "^2.6.1",
 		"prettier": "3.8.1",
+		"qrcode": "^1.5.4",
 		"typescript": "~6.0.2",
 		"typescript-eslint": "^8.58.2",
 		"vite": "^8.0.10"
@@ -36,6 +38,7 @@
 		"deploy": "yarn build && rsync -av --exclude=node_modules --exclude=src --exclude=.git --exclude=.yarn . jelly@192.168.1.117:~/mtb-trails/ && ssh jelly@192.168.1.117 'cd ~/mtb-trails && yarn install && sudo systemctl restart mtb-trails'",
 		"deploy:local": "yarn build && node server.mjs",
 		"dev": "concurrently \"node server.mjs\" \"vite\"",
+		"gen-qr": "node scripts/gen-qr.mjs",
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"start": "node server.mjs",

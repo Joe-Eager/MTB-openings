@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useTimeAgo } from './timeAgo';
 import TrailCard from './TrailCard';
 import type { Trail } from './trailData';
 
@@ -65,14 +66,19 @@ function compareTrails(a: Trail, b: Trail, sort: SortKey): number {
 	}
 }
 
+const SHARE_URL = 'https://github.com/Joe-Eager/MTB-openings';
+
 function App() {
 	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [trails, setTrails] = useState<Trail[]>([]);
+	const [cachedAt, setCachedAt] = useState<number | null>(null);
 	const [theme, setTheme] = useState<Theme>(getInitialTheme);
 	const [sort, setSort] = useState<SortKey>(getInitialSort);
 	const [favorites, setFavorites] = useState<Set<string>>(getInitialFavorites);
 	const [favoritesFirst, setFavoritesFirst] = useState(() => localStorage.getItem('favoritesFirst') === 'true');
+	const [shareOpen, setShareOpen] = useState(false);
+	const [copied, setCopied] = useState(false);
 
 	useEffect(() => {
 		document.documentElement.dataset.theme = theme;
@@ -116,13 +122,17 @@ function App() {
 		fetch('/api/trails')
 			.then((res) => {
 				if (!res.ok) throw new Error();
-				return res.json() as Promise<Trail[]>;
+				return res.json() as Promise<{ cachedAt: number; trails: Trail[] }>;
 			})
-			.then(setTrails)
+			.then(({ cachedAt, trails }) => {
+				setTrails(trails);
+				setCachedAt(cachedAt);
+			})
 			.catch(() => setError(true))
 			.finally(() => setLoading(false));
 	}, []);
 
+	const cachedAgo = useTimeAgo(cachedAt);
 	const cautionCount = trails.filter((t) => !t.stale && t.status === 'caution').length;
 	const closedCount = trails.filter((t) => !t.stale && t.status === 'closed').length;
 	const openCount = trails.filter((t) => !t.stale && t.status === 'open').length;
@@ -130,42 +140,69 @@ function App() {
 	return (
 		<>
 			<header className='site-header'>
-				<button
-					aria-checked={theme === 'dracula'}
-					aria-label='Dark theme'
-					className='theme-toggle'
-					onClick={() => setTheme((t) => (t === 'dracula' ? 'alucard' : 'dracula'))}
-					role='switch'
-					type='button'
-				>
-					<span className='theme-toggle__track'>
-						<span className='theme-toggle__knob'>
-							{theme === 'dracula' ? (
-								<svg
-									aria-hidden='true'
-									className='theme-toggle__icon'
-									fill='currentColor'
-									viewBox='0 0 24 24'
-								>
-									<path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
-								</svg>
-							) : (
-								<svg
-									aria-hidden='true'
-									className='theme-toggle__icon'
-									fill='none'
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeWidth='2'
-									viewBox='0 0 24 24'
-								>
-									<circle cx='12' cy='12' r='4' />
-									<path d='M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' />
-								</svg>
-							)}
+				<div className='header-toggles'>
+					<button
+						aria-label='Share this site'
+						className='share-button'
+						type='button'
+						onClick={() => {
+							setCopied(false);
+							setShareOpen(true);
+						}}
+					>
+						<svg
+							aria-hidden='true'
+							className='share-button__icon'
+							fill='none'
+							stroke='currentColor'
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							strokeWidth='2'
+							viewBox='0 0 24 24'
+						>
+							<circle cx='18' cy='5' r='3' />
+							<circle cx='6' cy='12' r='3' />
+							<circle cx='18' cy='19' r='3' />
+							<path d='M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98' />
+						</svg>
+					</button>
+					<button
+						aria-checked={theme === 'dracula'}
+						aria-label='Dark theme'
+						className='theme-toggle'
+						onClick={() => setTheme((t) => (t === 'dracula' ? 'alucard' : 'dracula'))}
+						role='switch'
+						type='button'
+					>
+						<span className='theme-toggle__track'>
+							<span className='theme-toggle__knob'>
+								{theme === 'dracula' ? (
+									<svg
+										aria-hidden='true'
+										className='theme-toggle__icon'
+										fill='currentColor'
+										viewBox='0 0 24 24'
+									>
+										<path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
+									</svg>
+								) : (
+									<svg
+										aria-hidden='true'
+										className='theme-toggle__icon'
+										fill='none'
+										stroke='currentColor'
+										strokeLinecap='round'
+										strokeWidth='2'
+										viewBox='0 0 24 24'
+									>
+										<circle cx='12' cy='12' r='4' />
+										<path d='M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4' />
+									</svg>
+								)}
+							</span>
 						</span>
-					</span>
-				</button>
+					</button>
+				</div>
 				<h1>CLE MTB Trails</h1>
 				<p className='site-header__subtitle'>Trail conditions - Cleveland Metroparks</p>
 				{!loading && !error && (
@@ -239,16 +276,49 @@ function App() {
 					))}
 			</main>
 			<footer className='site-footer'>
-				<p>
-					Data from Cleveland Metroparks - Cached for 5 minutes - Built{' '}
-					{new Date(__BUILD_TIME__).toLocaleString('en-US', {
-						day: 'numeric',
-						hour: 'numeric',
-						minute: '2-digit',
-						month: 'short'
-					})}
-				</p>
+				<p>v{__APP_VERSION__}</p>
+				{cachedAt != null && (
+					<p>Last hourly cache: {cachedAgo}</p>
+				)}
 			</footer>
+			{shareOpen && (
+				<div
+					aria-label='Share this site'
+					aria-modal='true'
+					className='share-modal'
+					onClick={() => setShareOpen(false)}
+					role='dialog'
+				>
+					<div className='share-modal__panel' onClick={(e) => e.stopPropagation()}>
+						<button
+							aria-label='Close'
+							className='share-modal__close'
+							onClick={() => setShareOpen(false)}
+							type='button'
+						>
+							&times;
+						</button>
+						<h2 className='share-modal__title'>Share this site</h2>
+						<p className='share-modal__subtitle'>Scan the code or copy the link</p>
+						<img alt={`QR code linking to ${SHARE_URL}`} className='share-modal__qr' src='/share-qr.svg' />
+						<div className='share-modal__link'>
+							<span className='share-modal__url'>{SHARE_URL}</span>
+							<button
+								className='share-modal__copy'
+								type='button'
+								onClick={() => {
+									navigator.clipboard?.writeText(SHARE_URL).then(
+										() => setCopied(true),
+										() => setCopied(false)
+									);
+								}}
+							>
+								{copied ? 'Copied!' : 'Copy'}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
 	);
 }

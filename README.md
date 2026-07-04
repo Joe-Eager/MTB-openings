@@ -11,7 +11,7 @@ Live trail status page for mountain bike trails around Cleveland, Ohio. Shows op
 - Pulls community-reported conditions from TrailForks regions
 - Shows static link cards for trails without live data sources
 - Marks status stale after a week with no update
-- Caches all data for 5 minutes
+- Caches all data for 1 hour
 - Light/dark theme toggle
 
 ## Run it yourself and view it from your phone (beginner guide)

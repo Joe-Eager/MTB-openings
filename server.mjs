@@ -27,7 +27,7 @@ const CAMBA_BASE_URL = 'https://dualrates.com/a/r/szz/camba';
 const CAMBA_HOME_URL = `${CAMBA_BASE_URL}/home`;
 const cambaTrailUrl = (p6Id) => `${CAMBA_BASE_URL}/trail?p6_id=${p6Id}`;
 const BSKY_API = 'https://public.api.bsky.app/xrpc';
-const CACHE_TTL = 5 * 60 * 1000;
+const CACHE_TTL = 60 * 60 * 1000;
 const STALE_AFTER = 7 * 24 * 60 * 60 * 1000; // a week
 const STATUS_ORDER = { caution: 1, closed: 2, open: 0, stale: 3 };
 
@@ -468,6 +468,7 @@ function formatBskyDate(iso) {
 
 let cachedTrails = null;
 let cacheExpiry = 0;
+let cachedAt = 0;
 
 async function scrapeMetroparks() {
 	const res = await fetch(METROPARKS_URL, {
@@ -816,7 +817,8 @@ async function getAllTrails() {
 		.sort((a, b) => rank(a) - rank(b));
 
 	cachedTrails = trails;
-	cacheExpiry = Date.now() + CACHE_TTL;
+	cachedAt = Date.now();
+	cacheExpiry = cachedAt + CACHE_TTL;
 	return trails;
 }
 
@@ -825,7 +827,7 @@ const app = express();
 app.get('/api/trails', async (_req, res) => {
 	try {
 		const trails = await getAllTrails();
-		res.json(trails);
+		res.json({ cachedAt, trails });
 	} catch (err) {
 		console.error('Fetch failed:', err.message);
 		res.status(503).json({ error: 'Could not fetch trail conditions' });
